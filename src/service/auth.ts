@@ -35,6 +35,7 @@ const fakeUsers: PropsUser[] = [
   },
 ];
 
+//Aqui estaria la api del  spring boot para validar el login
 export async function loginRequest(payload: LoginPayload): Promise<PropsUser> {
   await new Promise((resolve) => setTimeout(resolve, 500));
 
