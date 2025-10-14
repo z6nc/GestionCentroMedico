@@ -27,9 +27,9 @@ export type Administrativo = BaseUser & {
     // campos específicos de administrativo/cajero si los hay
 };
 
-export type User = Medico | Enfermero | Administrativo;
+export type PropsUser = Medico | Enfermero | Administrativo;
 
 export type AuthResponse = {
-    user: User;
+    user: PropsUser;
     token: string;
 };
