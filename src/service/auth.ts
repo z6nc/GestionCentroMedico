@@ -1,4 +1,4 @@
-import type { User } from '../types/user.types';
+import type { PropsUser } from '../types/user.types';
 
 type LoginPayload = {
   email: string;
@@ -6,7 +6,7 @@ type LoginPayload = {
 };
 
 // Datos de prueba locales
-const fakeUsers: User[] = [
+const fakeUsers: PropsUser[] = [
   {
     id: '12345678',
     nombre: 'Juan',
@@ -21,9 +21,9 @@ const fakeUsers: User[] = [
     id: '87654321',
     nombre: 'Ana',
     apellido: 'Gomez',
-    email: 'enfermero@mail.com',
+    email: 'admin@gmail.com',
     celular: '912345678',
-    tipo: 'enfermero',
+    tipo: 'administrativo',
   },
   {
     id: '11223344',
@@ -35,9 +35,7 @@ const fakeUsers: User[] = [
   },
 ];
 
-// La función login simulada
-export async function loginRequest(payload: LoginPayload): Promise<User> {
-  // Simulamos retardo de red
+export async function loginRequest(payload: LoginPayload): Promise<PropsUser> {
   await new Promise((resolve) => setTimeout(resolve, 500));
 
   const user = fakeUsers.find((u) => u.email === payload.email);
