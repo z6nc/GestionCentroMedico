@@ -1,1 +1,1 @@
-export * from "./VerBoletas";
+export * from "./verBoletas";
