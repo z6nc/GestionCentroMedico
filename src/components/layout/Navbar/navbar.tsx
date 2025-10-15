@@ -1,6 +1,7 @@
 import type { PropsUser } from "../../../types/user.types";
 import { ItemNavBar } from "./itemNav.bar";
-import { User2Icon, Stethoscope } from "lucide-react"
+import { User2Icon } from "lucide-react"
+import { Logo } from "../../icons/Logo";
 type Props = {
     user: PropsUser;
 };
@@ -8,13 +9,11 @@ type Props = {
 export function Sidebar({ user }: Props) {
 
     return (
-        <section className="w-64 bg-card  h-screen bg-green-500 flex flex-col justify-between p-6 ">
+        <section className="w-64 bg-card  h-screen bg-green-500 flex flex-col justify-between  ">
             <div className="flex flex-col gap-y-9 ">
                 {/* Logo del sistema */}
-                <div className="  overflow-hidden w-full inline-flex items-center gap-4">
-                    <div className="p-2 bg-white rounded-lg">
-                        <Stethoscope className="size-6 text-green-400  " />
-                    </div>
+                <div className="  overflow-hidden w-full inline-flex items-center gap-4 border-b border-gray-100 p-6">
+                    <Logo iconClass="size-6 text-green-400" bgClass="bg-white" />
                     <div>
                         <h1 className="text-xl font-bold text-white">RenovaSalud</h1>
                     </div>
