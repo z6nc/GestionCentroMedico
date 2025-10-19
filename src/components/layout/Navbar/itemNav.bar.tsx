@@ -10,7 +10,7 @@ export const ItemNavBar = ({ tipo }: { tipo: Role }) => {
         }`;
     return (
 
-        <nav className="space-y-5 flex flex-col items-center text-white">
+        <nav className="space-y-5 flex flex-col items-center text-white px-4">
             {
                 FindSiderItems ? (
                     FindSiderItems.itemsLabel.map((item, index) => (
