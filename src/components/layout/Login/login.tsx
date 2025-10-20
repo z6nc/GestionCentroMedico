@@ -1,6 +1,6 @@
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Input } from '../../common/input';
+import { Input } from '../../common/InputCustom/input';
 import { IconEmail, IconPassword } from '../../icons/FormIcon';
 import { Link } from 'react-router-dom';
 import { loginSchema } from '../../../schema/login.schema';
