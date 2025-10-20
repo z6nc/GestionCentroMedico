@@ -1,14 +1,19 @@
 import { z } from "zod";
 
 export const pacienteSchema = z.object({
-    DniPaciente: z.string().min(8, "El DNI debe tener al menos 8 dígitos"),
-    Nombre: z.string().min(1, "El nombre es obligatorio"),
-    Apellido: z.string().min(1, "El apellido es obligatorio"),
-    FechaNacimiento: z.string(),
+    DniPaciente: z
+        .string()
+        .min(8, "El DNI debe tener 8 dígitos")
+        .max(8, "El DNI debe tener 8 dígitos"),
+    Nombre: z.string().min(1, "Por favor ingresa el nombre del paciente"),
+    Apellido: z.string().min(1, "Por favor ingresa el apellido del paciente"),
+    FechaNacimiento: z.string().min(1, "Por favor ingresa la fecha de nacimiento"),
     Genero: z.enum(["Masculino", "Femenino"]),
-    Telefono: z.string().min(9, "El teléfono debe tener al menos 9 dígitos"),
+    Telefono: z
+        .string()
+        .regex(/^9\d{8}$/, "El teléfono debe comenzar con 9 y tener 9 dígitos"),
     Direccion: z.string().optional(),
-    Email: z.email("Email inválido").optional(),
+    Email: z.email("Ingresa un email válido").optional(),
 });
 
 export type Paciente = z.infer<typeof pacienteSchema>;
