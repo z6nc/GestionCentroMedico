@@ -1,38 +1,131 @@
+import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Input ,InputSelect } from "../InputCustom/index";
+import { Input, InputSelect } from "../InputCustom/index";
 import type { Paciente } from "../../../schema/paciente.schema";
 import { pacienteSchema } from "../../../schema/paciente.schema";
+import { ItemFormsIcon } from '../../../data/itemFormsIcon';
 
-export function FormModal({ onSubmit }: { onSubmit: (data: Paciente) => void }) {
-    const { register, handleSubmit, formState: { errors }, } = useForm<Paciente>({ resolver: zodResolver(pacienteSchema), });
+interface FormModalPacienteProps {
+    onSubmit: (data: Paciente) => void;
+    initialData?: Partial<Paciente>; // datos iniciales (para editar)
+    mode?: 'agregar' | 'editar'; // modo del formulario
+}
+
+export function FormModalPaciente({
+    onSubmit,
+    initialData,
+    mode = 'agregar',
+}: FormModalPacienteProps) {
+    const {
+        register,
+        handleSubmit,
+        formState: { errors },
+        reset,
+    } = useForm<Paciente>({
+        resolver: zodResolver(pacienteSchema),
+        defaultValues: initialData, // valores iniciales si existen
+    });
+
+    // ✅ Si cambian los datos iniciales (por ejemplo, al hacer clic en otro paciente)
+    // el formulario se actualiza automáticamente.
+    useEffect(() => {
+        if (initialData) {
+            reset(initialData);
+        }
+    }, [initialData, reset]);
+
     return (
-        <form onSubmit={handleSubmit(onSubmit)}
+        <form
+            onSubmit={handleSubmit(onSubmit)}
             className="flex flex-col gap-3 text-gray-50"
         >
-            <Input id='DniPaciente' register={register('DniPaciente')} error={errors.DniPaciente?.message} type='text' placeholder='Dni Paciente' >
+            <Input
+                id="DniPaciente"
+                register={register("DniPaciente")}
+                error={errors.DniPaciente?.message}
+                type="text"
+                placeholder="DNI del Paciente"
+            >
+                {ItemFormsIcon.dni}
             </Input>
-            <Input id='nombrePaciente' register={register('Nombre')} error={errors.Nombre?.message} type='text' placeholder='Nombre' >
+
+            <Input
+                id="nombrePaciente"
+                register={register("Nombre")}
+                error={errors.Nombre?.message}
+                type="text"
+                placeholder="Nombre"
+            >
+                {ItemFormsIcon.usuario}
             </Input>
-            <Input id='ApellidoPaciente' register={register('Apellido')} error={errors.Apellido?.message} type='text' placeholder='Apellido' >
+
+            <Input
+                id="ApellidoPaciente"
+                register={register("Apellido")}
+                error={errors.Apellido?.message}
+                type="text"
+                placeholder="Apellido"
+            >
+                {ItemFormsIcon.usuario}
             </Input>
-            <Input id='fechanacimientoPaciente' register={register('FechaNacimiento')} error={errors.FechaNacimiento?.message} type='datetime-local' placeholder='Fecha de Nacimiento' >
+
+            <Input
+                id="fechanacimientoPaciente"
+                register={register("FechaNacimiento")}
+                error={errors.FechaNacimiento?.message}
+                type="date"
+                placeholder="Fecha de Nacimiento"
+            >
+                {ItemFormsIcon.calendario}
             </Input>
-            {/* genero Opcion  */}
-            <InputSelect id='generoPaciente' register={register('Genero')} error={errors.Genero?.message} options={['Masculino', 'Femenino']} placeholder='Genero' >
+
+            <InputSelect
+                id="generoPaciente"
+                register={register("Genero")}
+                error={errors.Genero?.message}
+                options={["Masculino", "Femenino"]}
+                placeholder="Selecciona el género"
+            >
+                {ItemFormsIcon.genero}
             </InputSelect>
-            <Input id='telefonoPaciente' register={register('Telefono')} error={errors.Telefono?.message} type='text' placeholder='Telefono' >
+
+            <Input
+                id="telefonoPaciente"
+                register={register("Telefono")}
+                error={errors.Telefono?.message}
+                type="text"
+                placeholder="Celular"
+            >
+                {ItemFormsIcon.telefono}
             </Input>
-            <Input id='direccionPaciente' register={register('Direccion')} error={errors.Direccion?.message} type='text' placeholder='Direccion' >
+
+            <Input
+                id="direccionPaciente"
+                register={register("Direccion")}
+                error={errors.Direccion?.message}
+                type="text"
+                placeholder="Dirección del hogar"
+            >
+                {ItemFormsIcon.direccionHogar}
             </Input>
-            <Input id='emailPaciente' register={register('Email')} error={errors.Email?.message} type='email' placeholder='Email' >
+
+            <Input
+                id="emailPaciente"
+                register={register("Email")}
+                error={errors.Email?.message}
+                type="email"
+                placeholder="Correo electrónico"
+            >
+                {ItemFormsIcon.email}
             </Input>
 
             <button
                 type="submit"
-                className="bg-blue-600 text-white py-2 rounded-lg mt-3"
+                className={`${mode === 'editar' ? 'bg-green-600' : 'bg-blue-600'
+                    } text-white py-2 rounded-lg mt-3 transition hover:opacity-90`}
             >
-                Guardar
+                {mode === 'editar' ? 'Actualizar Paciente' : 'Guardar Paciente'}
             </button>
         </form>
     );
