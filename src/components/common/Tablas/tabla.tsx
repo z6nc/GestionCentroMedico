@@ -1,47 +1,25 @@
 import { Pencil } from "lucide-react"
-const PersonaData = [
-    {
-        DniPaciente: "12345678",
-        Nombre: "Juan",
-        Apellido: "Perez",
-        FechaNacimiento: "01/01/1990",
-        Genero: "Masculino",
-        Telefono: "987654321",
-        Direccion: "Av. Siempre Viva 123",
-        Email: "juan.perez@example.com"
-    },
-    {
-        DniPaciente: "12345678",
-        Nombre: "Juan",
-        Apellido: "Perez",
-        FechaNacimiento: "01/01/1990",
-        Genero: "Masculino",
-        Telefono: "987654321",
-        Direccion: "Av. Siempre Viva 123",
-        Email: "juan.perez@example.com"
-    },
-    {
-        DniPaciente: "12345678",
-        Nombre: "Juan",
-        Apellido: "Perez",
-        FechaNacimiento: "01/01/1990",
-        Genero: "Masculino",
-        Telefono: "987654321",
-        Direccion: "Av. Siempre Viva 123",
-        Email: "juan.perez@example.com"
-    }
-]
 
-export const TablaCustom = () => {
-    const keys = Object.keys(PersonaData[0]);
+export type TablaCustomProps<T> = {
+    datas: T[];
+};
+
+export const TablaCustom = <T extends Record<string, unknown>>({ datas }: TablaCustomProps<T>) => {
+
+    if (!datas || datas.length === 0) {
+        return <p className="text-center p-4">No hay datos para mostrar</p>;
+    }
+    const keys = Object.keys(datas[0]) as (keyof T)[];
+    
     return (
         <div className="relative overflow-x-auto shadow-md rounded-lg max-w-max mx-auto  ">
             <table className="w-full text-sm   ">
-                <thead className="text-xs text-gray-700 uppercase bg-green-400">
+                <thead className="text-xs text-gray-800  uppercase bg-green-400">
                     <tr>
                         {keys.map((key) => (
-                            <th key={key} scope="col" className="px-9 py-5">
-                                {key}
+                            <th key={String(key)}
+                             scope="col" className="px-9 py-5">
+                                {String(key)}
                             </th>
                         ))}
                         <th colSpan={keys.length} className="px-9 py-5 text-right">
@@ -52,17 +30,17 @@ export const TablaCustom = () => {
                 </thead>
 
                 <tbody className="text-center">
-                    {PersonaData.map((persona, index) => (
+                    {datas.map((item, index) => (
                         <tr
                             key={index}
-                            className="bg-white border-b border-gray-200 hover:bg-green-500/5"
+                            className="bg-white border-b border-gray-200 hover:bg-green-400/5"
                         >
                             {keys.map((key) => (
                                 <td
-                                    key={key}
+                                    key={String(key)}
                                     className="px-6 py-4  text-gray-900 whitespace-nowrap"
                                 >
-                                    {persona[key as keyof typeof persona]}
+                                    {String(item[key] ?? '')}
                                 </td>
                             ))}
 
