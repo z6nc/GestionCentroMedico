@@ -1,5 +1,5 @@
 import { ModalCustom } from "../../common/Modal/modalCustom"
-import { FormModal } from "../../common/Modal/formModal"
+import { FormModalPaciente } from "../../common/Modal/formModal"
 import { useState } from "react"
 export const AgregarPacientes = ({ titulo }: { titulo: string }) => {
     const [isModalOpen, setIsModalOpen] = useState(false)
@@ -16,9 +16,10 @@ export const AgregarPacientes = ({ titulo }: { titulo: string }) => {
             <ModalCustom
                 isOpen={isModalOpen}
                 onClose={() => setIsModalOpen(false)}
-                title={`Añadir ${titulo}`}
+                title={`Añadir nuevo ${titulo}`}
             >
-                <FormModal onSubmit={() => alert("Registrado")} />
+                <FormModalPaciente onSubmit={() => alert("Registrado")} mode="agregar" />
+
             </ModalCustom>
         </div>
     )
