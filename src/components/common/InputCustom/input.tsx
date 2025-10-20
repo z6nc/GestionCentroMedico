@@ -6,7 +6,7 @@ export interface PROPSINPUT extends InputHTMLAttributes<HTMLInputElement> {
     register?: UseFormRegisterReturn,
     error?: string,
     estilo?: string,
-    type: "text" | "email" | "password" | "number" |"datetime-local"
+    type: "text" | "email" | "password" | "number" |"date"
     placeholder?: string
     children?: React.ReactNode
 }
