@@ -6,6 +6,7 @@ export type TablaCustomProps<T> = {
 };
 
 export const TablaCustom = <T extends Record<string, unknown>>({ datas, onEdit }: TablaCustomProps<T>) => {
+    // Obtener las claves del primer objeto para los encabezados de la tabla
     const keys = Object.keys(datas[0]) as (keyof T)[];
 
     // Manejo de caso cuando no hay datos
