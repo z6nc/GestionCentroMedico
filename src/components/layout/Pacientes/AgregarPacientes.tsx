@@ -18,7 +18,7 @@ export const AgregarPacientes = ({ titulo }: { titulo: string }) => {
                 onClose={() => setIsModalOpen(false)}
                 title={`Añadir nuevo ${titulo}`}
             >
-                <FormModalPaciente onSubmit={() => alert("Registrado")} mode="agregar" />
+                <FormModalPaciente onSubmit={() => alert("Registrado")} mode="agregar"  />
 
             </ModalCustom>
         </div>
