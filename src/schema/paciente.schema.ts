@@ -7,7 +7,12 @@ export const pacienteSchema = z.object({
         .max(8, "El DNI debe tener 8 dígitos"),
     Nombre: z.string().min(1, "Por favor ingresa el nombre del paciente"),
     Apellido: z.string().min(1, "Por favor ingresa el apellido del paciente"),
-    FechaNacimiento: z.string().min(1, "Por favor ingresa la fecha de nacimiento"),
+    FechaNacimiento: z
+        .string()
+        .regex(/^\d{4}-\d{2}-\d{2}$/, {
+            message: "La fecha debe tener el formato YYYY-MM-DD",
+        }),
+
     Genero: z.enum(["Masculino", "Femenino"]),
     Telefono: z
         .string()
