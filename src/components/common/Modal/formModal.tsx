@@ -17,15 +17,8 @@ export function FormModalPaciente({
     initialData,
     mode = 'agregar',
 }: FormModalPacienteProps) {
-    const {
-        register,
-        handleSubmit,
-        formState: { errors },
-        reset,
-    } = useForm<Paciente>({
-        resolver: zodResolver(pacienteSchema),
-        defaultValues: initialData, // valores iniciales si existen
-    });
+    const {register, handleSubmit,formState: { errors }, reset, } = useForm<Paciente>({ resolver: zodResolver(pacienteSchema),defaultValues: initialData, // valores iniciales si existen
+ });
 
     // ✅ Si cambian los datos iniciales (por ejemplo, al hacer clic en otro paciente)
     // el formulario se actualiza automáticamente.
