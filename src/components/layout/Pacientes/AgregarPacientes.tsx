@@ -1,5 +1,5 @@
 import { ModalCustom } from "../../common/Modal/modalCustom"
-import { FormModalPaciente } from "../../common/Modal/formModal"
+import { FormModalPaciente } from "./formPaciente"
 import { useState } from "react"
 export const AgregarPacientes = ({ titulo }: { titulo: string }) => {
     const [isModalOpen, setIsModalOpen] = useState(false)
