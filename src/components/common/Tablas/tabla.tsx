@@ -32,7 +32,7 @@ export const TablaCustom = <T extends Record<string, unknown>>({ datas, onEdit }
 
                 </thead>
 
-                <tbody className="text-center">
+                <tbody className="text-wrap text-center">
                     {datas.map((item, index) => (
                         <tr
                             key={index}
@@ -41,7 +41,7 @@ export const TablaCustom = <T extends Record<string, unknown>>({ datas, onEdit }
                             {keys.map((key) => (
                                 <td
                                     key={String(key)}
-                                    className="px-6 py-4  text-gray-900 whitespace-nowrap"
+                                    className="px-6 py-4  text-gray-900  "
                                 >
                                     {String(item[key] ?? '')}
                                 </td>
