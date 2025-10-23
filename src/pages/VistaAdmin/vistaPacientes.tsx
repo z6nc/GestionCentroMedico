@@ -1,5 +1,5 @@
 import { TituloCustom } from "../../components/common/titulos/tituloCustom"
-import { VistaCRUDPaciente } from "../../components/layout/Pacientes/vistaCrud"
+import { VistaCRUDPaciente } from "../../components/layout/Pacientes/vistaCrudPaciente"
 import { PersonaData } from "../../data/pacientes.data"
 import { AgregarPacientes } from "../../components/layout/Pacientes/AgregarPacientes"
 export function VistaPacientes() {
