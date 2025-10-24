@@ -10,5 +10,6 @@ export const ItemFormsIcon = {
    analisis : <Activity />,
    precio : <CircleDollarSign />,
    stock : <Package />,
-   medicamento: <Pill />
+   medicamento: <Pill />,
+   especialidad: <Activity />
 }
