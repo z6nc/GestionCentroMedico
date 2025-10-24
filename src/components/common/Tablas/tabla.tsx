@@ -51,7 +51,7 @@ export const TablaCustom = <T extends Record<string, unknown>>({ datas, onEdit }
                                 <button
                                     type="button"
                                     onClick={() => onEdit(item)}
-                                    className="bg-orange-200 hover:bg-orange-300 transition flex items-center justify-center py-2 rounded-lg w-10 mx-auto"
+                                    className="bg-orange-200 hover:bg-orange-300 transition flex items-center justify-center py-2 rounded-lg w-10 mx-auto cursor-pointer"
                                     title="Editar registro"
                                 >
                                     <Pencil className="size-5 text-black" />
