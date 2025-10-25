@@ -28,7 +28,7 @@ export const ModalCustom = ({ isOpen, onClose, title, children }: ModalCustomPro
                 >
                     ×
                 </button>
-                {title && <h2 className="text-lg font-semibold mb-4">{title}</h2>}
+                {title && <h2 className="text-lg font-semibold mb-4 uppercase">{title}</h2>}
                 {children}
             </div>
         </div>,
