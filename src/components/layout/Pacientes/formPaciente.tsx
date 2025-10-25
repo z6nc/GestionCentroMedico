@@ -9,7 +9,7 @@ import { ItemFormsIcon } from '../../../data/itemFormsIcon';
 interface FormModalPacienteProps {
     onSubmit: (data: Paciente) => void;
     initialData?: Partial<Paciente>; // datos iniciales (para editar)
-    mode?: 'agregar' | 'editar'; // modo del formulario
+    mode: 'agregar' | 'editar'; // modo del formulario
 }
 
 export function FormModalPaciente({
@@ -17,11 +17,11 @@ export function FormModalPaciente({
     initialData,
     mode = 'agregar',
 }: FormModalPacienteProps) {
-    const {register, handleSubmit,formState: { errors }, reset, } = useForm<Paciente>({ resolver: zodResolver(pacienteSchema),defaultValues: initialData, // valores iniciales si existen
- });
+    const { register, handleSubmit, formState: { errors }, reset, } = useForm<Paciente>({
+        resolver: zodResolver(pacienteSchema), defaultValues: initialData, // valores iniciales si existen
+    });
 
-    // ✅ Si cambian los datos iniciales (por ejemplo, al hacer clic en otro paciente)
-    // el formulario se actualiza automáticamente.
+   
     useEffect(() => {
         if (initialData) {
             reset(initialData);
