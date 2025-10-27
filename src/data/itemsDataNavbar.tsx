@@ -9,9 +9,6 @@ export const sidebarItems: SidebarItem[] = [
     {
         Categoria: "administrativo",
         itemsLabel: [
-            { icon: Users, label: "Pacientes", path: "/dashboard/pacientes", element: <VistaPacientes />, allowedRoles: ["administrativo"] },
-            { icon: Calendar, label: "Citas", path: "/dashboard/citas", element: <VistaCitas />, allowedRoles: ["administrativo"] },
-            { icon: Calendar, label: "Historia Medica", path: "/dashboard/historia-medica", element: <VistaHistoriaMedica />, allowedRoles: ["administrativo"] },
             { icon: Stethoscope, label: "Lista Medicos", path: "/dashboard/lista-medicos", element: <VistaMedico />, allowedRoles: ["administrativo"] },
             { icon: Pill, label: "Medicamentos", path: "/dashboard/lista-medicamentos", element: <VistaMedicamentos />, allowedRoles: ["administrativo", "cajero"] },
             { icon: Pill, label: "Analisis", path: "/dashboard/analisis", element: <VistaAnalisis />, allowedRoles: ["administrativo"] },
@@ -19,10 +16,20 @@ export const sidebarItems: SidebarItem[] = [
         ]
     },
     {
+        Categoria: "enfermero",
+        itemsLabel: [
+            { icon: Users, label: "Pacientes", path: "/dashboard/pacientes", element: <VistaPacientes />, allowedRoles: ["administrativo" , "enfermero"] },
+            { icon: Calendar, label: "Citas", path: "/dashboard/citas", element: <VistaCitas />, allowedRoles: ["administrativo" , "enfermero"] },
+            { icon: Calendar, label: "Historia Medica", path: "/dashboard/historia-medica/:dni", element: <VistaHistoriaMedica />, allowedRoles: ["administrativo" , "enfermero"] },
+        ]
+    },
+
+    {
         Categoria: "cajero",
         itemsLabel: [
             { icon: CalendarSearch, label: "Boleta", path: "/dashboard/boleta", element: <VerBoletas />, allowedRoles: ["cajero", "medico"] },
             { icon: Pill, label: "Listar Medicamentos", path: "/dashboard/lista-medicamentos", allowedRoles: ["cajero", "administrativo"], element: <VistaMedicamentos /> },
+            // 
         ]
     },
     {
@@ -30,6 +37,7 @@ export const sidebarItems: SidebarItem[] = [
         itemsLabel: [
             { icon: CalendarSearch, label: "Boleta de Pago", path: "/dashboard/boleta", element: <VerBoletas />, allowedRoles: ["medico", "cajero"] },
             { icon: Pill, label: "Atencion Medica", path: "/dashboard/atencion-medica", element: <VistaAtencionMedica />, allowedRoles: ["medico"] },
+            // { icon: Users, label: "Pacientes", path: "/dashboard/pacientes", element: <VistaRecetaMedica />, allowedRoles: ["medico"] }, // crear RecetaMedica
 
         ]
     }
