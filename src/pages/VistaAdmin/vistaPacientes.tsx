@@ -56,7 +56,7 @@ export function VistaPacientes() {
             <div className=" xl:max-w-max m-9 flex flex-col gap-y-9 items-start ">
                 <button
                     onClick={handleAgregar}
-                    className="bg-blue-600 p-2 text-white rounded-lg text-sm"
+                    className="bg-blue-600 p-2 text-white rounded-lg text-sm cursor-pointer"
                 >
                     Agregar Paciente
                 </button>
