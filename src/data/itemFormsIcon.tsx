@@ -1,4 +1,4 @@
-import { IdCard, User ,  CalendarSearch ,VenusAndMars, Phone, MapPinHouse , Mails, Activity, CircleDollarSign, Package, Pill } from "lucide-react"
+import { IdCard, User ,  CalendarSearch ,VenusAndMars, Phone, MapPinHouse , Mails, Activity, CircleDollarSign, Package, Pill, Ruler, Scale } from "lucide-react"
 export const ItemFormsIcon = {
    dni : <IdCard />,
    usuario : <User />,
@@ -11,5 +11,7 @@ export const ItemFormsIcon = {
    precio : <CircleDollarSign />,
    stock : <Package />,
    medicamento: <Pill />,
-   especialidad: <Activity />
+   especialidad: <Activity />,
+   altura : <Ruler />,
+   peso : <Scale />
 }
