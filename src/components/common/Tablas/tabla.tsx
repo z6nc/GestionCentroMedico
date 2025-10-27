@@ -14,7 +14,7 @@ interface DataTableProps<T> {
 
 export function DataTable<T>({ columns, data }: DataTableProps<T>) {
     return (
-        <div className="relative shadow-md rounded-lg  overflow-x-scroll max-w-5xl  2xl:max-w-max">
+        <div className="relative shadow-md rounded-lg  overflow-x-scroll max-w-5xl  2xl:max-w-[1550px] ">
             <table className="min-w-full  text-sm">
                 <thead className="text-xs text-gray-800  uppercase bg-green-400">
                     <tr>
