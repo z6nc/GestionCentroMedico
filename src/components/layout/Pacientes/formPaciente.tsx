@@ -72,6 +72,15 @@ export function FormModalPaciente({
             >
                 {ItemFormsIcon.calendario}
             </Input>
+            <Input
+                id="edadPaciente"
+                register={register("Edad")}
+                error={errors.Edad?.message}
+                type="text"
+                placeholder="Edad"
+            >
+                {ItemFormsIcon.usuario}
+            </Input>
 
             <InputSelect
                 id="generoPaciente"
@@ -111,6 +120,33 @@ export function FormModalPaciente({
                 placeholder="Correo electrónico"
             >
                 {ItemFormsIcon.email}
+            </Input>
+            <Input
+                id="tipodesangrePaciente"
+                register={register("TipodeSangre")}
+                error={errors.TipodeSangre?.message}
+                type="text"
+                placeholder="Tipo de Sangre"
+            >
+                {ItemFormsIcon.usuario}
+            </Input>
+            <Input
+                id="pesoPaciente"
+                register={register("PesoPaciente")}
+                error={errors.PesoPaciente?.message}
+                type="text"
+                placeholder="Peso del Paciente"
+            >
+                {ItemFormsIcon.peso}
+            </Input>
+            <Input
+                id="alturaPaciente"
+                register={register("AlturaPaciente")}
+                error={errors.AlturaPaciente?.message}
+                type="text"
+                placeholder="Altura del Paciente"
+            >
+                {ItemFormsIcon.altura}
             </Input>
 
             <button
