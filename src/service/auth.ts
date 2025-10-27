@@ -33,6 +33,14 @@ const fakeUsers: PropsUser[] = [
     celular: '923456789',
     tipo: 'cajero',
   },
+   {
+    id: '11223344',
+    nombre: 'Carlos',
+    apellido: 'Lopez',
+    email: 'enfermero@mail.com',
+    celular: '923456789',
+    tipo: 'enfermero',
+  },
 ];
 
 //Aqui estaria la api del  spring boot para validar el login
