@@ -1,38 +1,53 @@
 import { ProfileCard } from "../../common/historia/ProfileCard"
 import type { Paciente } from "../../../schema/paciente.schema"
-import type { PropsHistoriaMedica } from "../../../data/historiaMedica.data"
+import type { PropsListaAtencioMedica } from "../../../data/historiaMedica.data"
+import { useState } from "react"
+import { AppointmentCard } from "./AppointmentCard"
 interface HistoriaMedicaProps {
- pacienteProps: Paciente
- historiaProps: PropsHistoriaMedica[]
-}   
+    pacienteProps: Paciente
+    historiaProps: PropsListaAtencioMedica[]
+}
+
 export function HistoriaMedicaPaciente({ pacienteProps, historiaProps }: HistoriaMedicaProps) {
+    const [selectedId, setSelectedId] = useState<string | null>(null)
+
+    const handleClick = (id: string) => {
+        // Si ya está abierto, lo cerramos
+        if (selectedId === id) {
+            setSelectedId(null)
+        } else {
+            setSelectedId(id)
+        }
+    }
+
 
     return (
-         <section className="text-black  flex  p-9 gap-9">
+        <section className="text-black  flex  p-9 gap-9">
             <ProfileCard
                 title="Información del Paciente"
                 data={pacienteProps}
                 Nombre={pacienteProps.Nombre}
                 Apellido={pacienteProps.Apellido}
             />
-            <div className="flex-1 bg-white rounded-lg shadow-md p-5">
-                <h2 className="border-b border-gray-100  text-gray-400 font-semibold text-xl uppercase">Historial medico del Paciente</h2>
 
-                {historiaProps.length > 0 ? (
-                    historiaProps.map((historia) => (
-                        <div key={historia.IdHistoria} className=" py-4 rounded-lg mb-3">
-                            <p><span className="font-semibold text-gray-700">Fecha:</span> {new Date(historia.fecha).toLocaleDateString()}</p>
-                            <p><span className="font-semibold text-gray-700">Descripción:</span> {historia.descripcion}</p>
-                            <p><span className="font-semibold text-gray-700">Diagnóstico:</span> {historia.diagnostico}</p>
-                            <p><span className="font-semibold text-gray-700">Tratamiento:</span> {historia.tratamiento}</p>
-                            <p><span className="font-semibold text-gray-700">Notas:</span> {historia.notas}</p>
+            <div className="flex-1 bg-white rounded-lg shadow-md p-5">
+                {
+                    historiaProps.length > 0 ? (
+                        <div className="flex flex-col gap-6">
+                            {historiaProps.map((historia) => (
+                                <AppointmentCard key={historia.IdHistoria} citaMedica={historia} isSelected={selectedId === historia.IdHistoria} onClick={() => handleClick(historia.IdHistoria)} />
+                            ))}
                         </div>
-                    ))
-                ) : (
-                    <p>No hay historial registrado para este paciente.</p>
-                )}
+                    ) : (
+                        <div className="flex-1">
+                            <p>No hay atenciones médicas registradas.</p>
+                        </div>
+                    )}
+
+
             </div>
-         </section>
+
+        </section>
     )
 }
 

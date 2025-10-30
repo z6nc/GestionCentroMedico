@@ -12,13 +12,18 @@ interface FormModalMedicosProps {
     mode?: 'agregar' | 'editar'; // modo del formulario
 }
 
+const optionsValue = [
+    { value: true, label: "Activo" },
+    { value: false, label: "Inactivo" },
+];
 export function FormModalMedico({
     onSubmit,
     initialData,
     mode = 'agregar',
 }: FormModalMedicosProps) {
-    const {register, handleSubmit,formState: { errors }, reset, } = useForm<MedicoProps>({ resolver: zodResolver(MedicosSchema),defaultValues: initialData, // valores iniciales si existen
- });
+    const { register, handleSubmit, formState: { errors }, reset, } = useForm<MedicoProps>({
+        resolver: zodResolver(MedicosSchema), defaultValues: initialData, // valores iniciales si existen
+    });
 
     // ✅ Si cambian los datos iniciales (por ejemplo, al hacer clic en otro paciente)
     // el formulario se actualiza automáticamente.
@@ -33,20 +38,20 @@ export function FormModalMedico({
             onSubmit={handleSubmit(onSubmit)}
             className="flex flex-col gap-3 text-gray-50"
         >
-            <Input
-                id="IDMedicamento"
-                register={register("IDMedico")}
-                error={errors.IDMedico?.message}
-                type="text"
-                placeholder="ID del Medicamento"
+            {/* <Input
+                id="IDMedico"
+                register={register("numero")}
+                error={errors.numero?.message}
+                type="number"
+                placeholder="ID del Médico"
             >
                 {ItemFormsIcon.dni}
-            </Input>
+            </Input> */}
 
             <Input
                 id="NombreMedico"
-                register={register("NombreMedico")}
-                error={errors.NombreMedico?.message}
+                register={register("nombre")}
+                error={errors.nombre?.message}
                 type="text"
                 placeholder="Nombre del Medico"
             >
@@ -55,25 +60,36 @@ export function FormModalMedico({
 
             <Input
                 id="ApellidoMedico"
-                register={register("ApellidoMedico")}
-                error={errors.ApellidoMedico?.message}
+                register={register("apellido")}
+                error={errors.apellido?.message}
                 type="text"
                 placeholder="Apellido del Médico"
             >
                 {ItemFormsIcon.usuario}
             </Input>
 
-          
-             <InputSelect
+
+            <InputSelect
                 id="especialidad"
-                register={register("Especialidad")}
-                error={errors.Especialidad?.message}
+                register={register("especialidad")}
+                error={errors.especialidad?.message}
                 options={EspecialidadData}
                 placeholder="Selecciona una especialidad"
             >
                 {ItemFormsIcon.especialidad}
             </InputSelect>
-            <Input
+
+            <InputSelect
+                id="estado"
+                register={register("estado")}
+                error={errors.estado?.message}
+                options={optionsValue.map(option => option.value.toString())} // enviará "true"/"false"
+                placeholder="Selecciona el estado"
+            >
+                {ItemFormsIcon.altura}
+            </InputSelect>
+
+            {/* <Input
                 id="telefono"
                 register={register("telefono")}
                 error={errors.telefono?.message}
@@ -90,9 +106,9 @@ export function FormModalMedico({
                 placeholder="Email del Médico"
             >
                 {ItemFormsIcon.email}
-            </Input>
+            </Input> */}
 
-                    
+
 
             <button
                 type="submit"

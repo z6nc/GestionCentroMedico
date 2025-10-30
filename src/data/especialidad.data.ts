@@ -1,9 +1,9 @@
 export const EspecialidadData = [
-    "Cardiología",
+    "Cardiologia",
     "Medicina General",
-    "Pediatría",
-    "Dermatología",
-    "Traumatología",
-    "Ginecología",
-    "Psiquiatría"
+    "Pediatria",
+    "Dermatologia",
+    "Traumatologia",
+    "Ginecologia",
+    "Psiquiatria"
 ];

@@ -11,7 +11,7 @@ export function VistaHistoriaMedica() {
     if (!paciente) return <p>Paciente no encontrado</p>;
     return (
         <main>
-            <TituloCustom titulo={`Historia Médica `} />
+            <TituloCustom titulo={`Lista de citas medicas `} />
             {/* Datos generales del paciente */}
             <HistoriaMedicaPaciente pacienteProps={paciente} historiaProps={historiasPaciente} />
 

@@ -31,7 +31,7 @@ export function FormModalPaciente({
     return (
         <form
             onSubmit={handleSubmit(onSubmit)}
-            className="flex flex-col gap-3 text-gray-50"
+            className="flex flex-col gap-3 text-gray-50 overflow-y-auto max-h-[500px]"
         >
             <Input
                 id="DniPaciente"

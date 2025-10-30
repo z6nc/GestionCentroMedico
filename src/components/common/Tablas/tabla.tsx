@@ -29,11 +29,14 @@ export function DataTable<T>({ columns, data }: DataTableProps<T>) {
                     {data.map((row, i) => (
                         <tr key={i} className="bg-white border-b border-gray-200 hover:bg-green-400/5">
                             {columns.map((col, j) => (
-                                <td key={j} className="px-6 py-4  text-gray-900 ">
+                                <td key={j} className="px-6 py-4 text-gray-900">
                                     {col.cell
                                         ? col.cell(row)
-                                        : (row[col.accessor as keyof T] as React.ReactNode)}
+                                        : typeof row[col.accessor as keyof T] === "boolean"
+                                            ? (row[col.accessor as keyof T] ? "Activo" : "Inactivo")
+                                            : (row[col.accessor as keyof T] as React.ReactNode)}
                                 </td>
+
                             ))}
                         </tr>
                     ))}

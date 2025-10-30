@@ -4,6 +4,8 @@ import VistaLogin from "./vistaLogin";
 import Dashboard from "./dashboard";
 import { sidebarItems } from "../data/itemsDataNavbar";
 import { VistaPrincipal } from "../components/layout/Dasboard/vistaPrincipal";
+import "react-big-calendar/lib/css/react-big-calendar.css";
+
 function App() {
 
   return (

@@ -1,5 +1,5 @@
 import { Users, Calendar, Stethoscope, Pill, CalendarSearch } from "lucide-react"
-import { VistaCitas, VistaPacientes, VistaHistoriaMedica, VistaMedico, VistaMedicamentos, VistaAnalisis } from "../pages/VistaAdmin/index"
+import { VistaCitas, VistaPacientes, VistaHistoriaMedica, VistaMedico, VistaMedicamentos, VistaAnalisis ,VistaDetalleMedico, VistaProgramacionMedica} from "../pages/VistaAdmin/index"
 import { VerBoletas } from "../pages/VistaCajero/index";
 import { VistaAtencionMedica } from "../pages/VistaMedico";
 import type { SidebarItem } from "../types/siderBarItem.types";
@@ -10,6 +10,8 @@ export const sidebarItems: SidebarItem[] = [
         Categoria: "administrativo",
         itemsLabel: [
             { icon: Stethoscope, label: "Lista Medicos", path: "/dashboard/lista-medicos", element: <VistaMedico />, allowedRoles: ["administrativo"] },
+            { icon: Pill, label: "Detalle Medico", path: "/dashboard/detalle-medico/:id", element: <VistaDetalleMedico />, allowedRoles: ["administrativo"] },
+            { icon: Calendar, label: "Programacion Medico", path: "/dashboard/programacion-medica/:medicoId", element: <VistaProgramacionMedica />, allowedRoles: ["administrativo"] },
             { icon: Pill, label: "Medicamentos", path: "/dashboard/lista-medicamentos", element: <VistaMedicamentos />, allowedRoles: ["administrativo", "cajero"] },
             { icon: Pill, label: "Analisis", path: "/dashboard/analisis", element: <VistaAnalisis />, allowedRoles: ["administrativo"] },
 
