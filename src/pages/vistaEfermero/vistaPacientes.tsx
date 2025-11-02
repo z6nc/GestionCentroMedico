@@ -1,5 +1,5 @@
 import { TituloCustom } from "../../components/common/titulos/tituloCustom"
-import { PersonaData } from "../../data/pacientes.data"
+// import { PersonaData } from "../../data/pacientes.data"
 import { columnasPacientes } from "../../components/layout/Pacientes/columnaPaciente"
 import { DataTable } from "../../components/common/Tablas/tabla"
 import type { Paciente } from "../../schema/paciente.schema"
@@ -7,12 +7,14 @@ import { useState } from "react"
 import { usePacientes } from "../../hooks/usePaciente"
 import { FormModalPaciente } from "../../components/layout/Pacientes/formPaciente"
 import { ModalCustom } from "../../components/common/Modal/modalCustom"
+import { ErrorBoundary } from "react-error-boundary"
+import { toast } from "react-toastify"
 
 export function VistaPacientes() {
-    const { pacientes, isLoading, mutate } = usePacientes();
+    const { pacientes, mutate, error } = usePacientes();
     const [pacienteSeleccionado, setPacienteSeleccionado] = useState<Paciente | null>(null);
     const [modo, setModo] = useState<'agregar' | 'editar'>('agregar');
-   const [isModalOpen, setIsModalOpen] = useState(false);
+    const [isModalOpen, setIsModalOpen] = useState(false);
     const handleEditar = (paciente: Paciente) => {
         setPacienteSeleccionado(paciente);
         setModo('editar');
@@ -29,27 +31,29 @@ export function VistaPacientes() {
         try {
             if (modo === 'editar' && pacienteSeleccionado) {
                 // PUT al backend
-                await fetch(`/api/pacientes/${pacienteSeleccionado.DniPaciente}`, {
+                await fetch(`http://localhost:8092/paciente/actualizar/${pacienteSeleccionado.numero}`, {
                     method: "PUT",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify(data),
                 });
+                toast.success("Paciente actualizado correctamente");
             } else {
                 // POST al backend para agregar nuevo paciente
-                await fetch("/api/pacientes", {
+                await fetch("http://localhost:8092/paciente/guardar", {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify(data),
                 });
+                toast.success("Paciente agregado correctamente");
             }
             mutate(); // refetch SWR
             setIsModalOpen(false);
         } catch (err) {
             console.error("Error guardando paciente:", err);
+            toast.error("Error al guardar el paciente. Por favor, inténtelo de nuevo.");
         }
     };
 
-    if (isLoading) return <p>Cargando pacientes...</p>;
     return (
         <section className="">
             <TituloCustom titulo="Pacientes" />
@@ -60,8 +64,17 @@ export function VistaPacientes() {
                 >
                     Agregar Paciente
                 </button>
-
-                <DataTable columns={columnasPacientes(handleEditar)} data={PersonaData || []} />
+                <ErrorBoundary FallbackComponent={() => <div>Error al cargar la tabla de Paciente.</div>}>
+                    {pacientes ? (
+                        <DataTable columns={columnasPacientes(handleEditar)} data={pacientes || []} />
+                    ) : error ? (
+                        <div>
+                            Error al cargar la tabla de pacientes.
+                        </div>
+                    ) : (
+                        <p>Cargando tabla...</p>
+                    )}
+                </ErrorBoundary>
 
                 {isModalOpen && (
                     <ModalCustom
