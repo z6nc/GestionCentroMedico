@@ -10,6 +10,7 @@ import { DataTable } from "../../components/common/Tablas/tabla"
 import { columnasCarritoHorarios } from "../../components/layout/Medicos/DetalleProgramacionMedico/columnaProgramacionMedica";
 import { ModalCustom } from "../../components/common/Modal/modalCustom";
 import type { CarritoHorario } from "../../hooks/useCarritoMedico";
+
 export function VistaProgramacionMedica() {
     const [CalendarioOpen, setCalendarioOpen] = useState(false);
     const { horarios, agregarHorario, quitarHorario } = useCarritoHorario();
@@ -31,6 +32,7 @@ export function VistaProgramacionMedica() {
                 <FormHorario medicoId={Number(medicoId)} onAdd={handleAddHorario} />
                 <CarritoHorarios HorarioDemedico={HorarioDemedico} eliminarHorario={quitarHorario} />
             </div>
+            
             <div className="px-8 py-4">
                 <button onClick={() => setCalendarioOpen(true)} className="btn">Ver Calendario de Horarios</button>
                 <DataTable columns={columnasCarritoHorarios()} data={HorarioDemedico} />
