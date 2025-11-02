@@ -12,7 +12,7 @@ interface FormModalMedicosProps {
     mode?: 'agregar' | 'editar'; // modo del formulario
 }
 
-const optionsValue = [
+ const optionsValue = [
     { value: true, label: "Activo" },
     { value: false, label: "Inactivo" },
 ];
