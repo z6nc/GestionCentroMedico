@@ -8,6 +8,7 @@ import { ModalCustom } from "../../components/common/Modal/modalCustom"
 import type { MedicoProps } from "../../schema/medicos.schema"
 import { FiltrosMedicos } from "../../components/layout/Medicos/FiltrosMedicos/filtroMedicos"
 import { ErrorBoundary } from "react-error-boundary"
+import { toast } from "react-toastify"
 
 export function VistaMedico() {
     const [especialidad, setEspecialidad] = useState<string>("")
@@ -37,6 +38,7 @@ export function VistaMedico() {
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify(data),
                 });
+                toast.success("¡Médico actualizado correctamente!");
             } else {
                 // POST al backend para agregar nuevo medico
                 await fetch("http://localhost:8091/medico/guardar", {
@@ -44,11 +46,13 @@ export function VistaMedico() {
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify(data),
                 });
+                toast.success("¡Médico agregado correctamente!");
             }
             mutate(); // refetch SWR
             setIsModalOpen(false);
         } catch (err) {
             console.error("Error guardando paciente:", err);
+            toast.error("Error al guardar el médico. Por favor, inténtelo de nuevo.");
         }
     };
     console.log(medicos)
