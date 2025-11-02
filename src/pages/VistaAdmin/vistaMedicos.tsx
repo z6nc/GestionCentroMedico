@@ -1,21 +1,21 @@
 import { TituloCustom } from "../../components/common/titulos/tituloCustom"
-import { columnasMedicos } from "../../components/layout/Medicos/columnaMedicos"
+import { columnasMedicos } from "../../components/layout/Medicos/ColumnaMedicos"
 import { DataTable } from "../../components/common/Tablas/tabla"
 import { useState } from "react"
 import { useMedicosPorEspecialidad } from "../../hooks/useMedicos"
-import { FormModalMedico } from "../../components/layout/Medicos/formMedicos"
+import { FormModalMedico } from "../../components/layout/Medicos/FormularioMedicos"
 import { ModalCustom } from "../../components/common/Modal/modalCustom"
 import type { MedicoProps } from "../../schema/medicos.schema"
-import { Suspense } from "react"
-import { FiltrosMedicos } from "../../components/layout/Medicos/filtroMedicos"
+import { FiltrosMedicos } from "../../components/layout/Medicos/FiltrosMedicos/filtroMedicos"
+import { ErrorBoundary } from "react-error-boundary"
 
 export function VistaMedico() {
     const [especialidad, setEspecialidad] = useState<string>("")
-    const { medicos, mutate } = useMedicosPorEspecialidad(especialidad);
+    const { medicos, mutate, error ,eliminarMedico} = useMedicosPorEspecialidad(especialidad);
     const [medicoSeleccionado, setMedicoSeleccionado] = useState<MedicoProps | null>(null);
     const [modo, setModo] = useState<'agregar' | 'editar'>('agregar');
     const [isModalOpen, setIsModalOpen] = useState(false);
-
+    
     const handleEditar = (medico: MedicoProps) => {
         setMedicoSeleccionado(medico);
         setModo('editar');
@@ -51,22 +51,30 @@ export function VistaMedico() {
             console.error("Error guardando paciente:", err);
         }
     };
-
-
+    console.log(medicos)
 
     return (
         <section className="">
-            <TituloCustom titulo="Pacientes" />
+            <TituloCustom titulo="Medicos" />
             <div className=" xl:max-w-max m-9 flex flex-col gap-y-9 items-start ">
                 <FiltrosMedicos
                     especialidad={especialidad}
                     setEspecialidad={setEspecialidad}
                     handleAgregar={handleAgregar}
                 />
+                <ErrorBoundary FallbackComponent={() => <div>Error al cargar la tabla de médicos.</div>}>
+                    {medicos ? (
+                        <DataTable columns={columnasMedicos({ handleEditar, handleEliminar: eliminarMedico })} data={medicos || []} />
+                    ) : error ? (
+                        <div>
+                            Error al cargar la tabla de médicos.
+                        </div>
+                    ) : (
+                        <p>Cargando tabla...</p>
+                    )}
+                </ErrorBoundary>
 
-                <Suspense fallback={<p>Cargando tabla...</p>}>
-                    <DataTable columns={columnasMedicos(handleEditar)} data={medicos || []} />
-                </Suspense>
+
                 {isModalOpen && (
                     <ModalCustom
                         isOpen={isModalOpen}
