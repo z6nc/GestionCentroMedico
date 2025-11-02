@@ -15,11 +15,11 @@ interface DataTableProps<T> {
 export function DataTable<T>({ columns, data }: DataTableProps<T>) {
     return (
         <div className="relative shadow-md rounded-lg  overflow-x-scroll max-w-5xl  2xl:max-w-[1550px] ">
-            <table className="min-w-full  text-sm">
+            <table className="min-w-full  text-sm ">
                 <thead className="text-xs text-gray-800  uppercase bg-green-400">
                     <tr>
                         {columns.map((col, i) => (
-                            <th key={i} className="px-9 py-5 text-left font-semibold">
+                            <th key={i} className="px-9 py-5 text-center font-semibold">
                                 {col.header}
                             </th>
                         ))}
