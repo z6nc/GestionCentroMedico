@@ -21,6 +21,7 @@ export const columnasMedicos = ({ handleEditar, handleEliminar }: ColumnasMedico
     cell: (row: MedicoProps) => (
       <div className="flex flex-wrap gap-2">
         <Link to={`/dashboard/historia-medica/${row.numero}`}>
+        {/* historia medica */}
           <button className="ml-2 px-3 py-1 bg-blue-400 border text-white rounded-full cursor-pointer inline-flex items-center">
             <FileBadge />
           </button>
