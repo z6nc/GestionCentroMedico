@@ -14,7 +14,7 @@ export default function Login({ onSubmit }: { onSubmit: (data: LoginForm) => voi
         <section id='ContainerLogin' className="min-h-screen  flex  items-start " >
 
             <div className=" mx-auto flex flex-col justify-center items-center gap-y-4 shadow my-20 py-10 px-20 text-center rounded-lg bg-white">
-                <img className='w-60 mb-6' src="https://api.centromedicoosi.com/img/osi/logologin.png" alt="" />
+                <img className='w-60 mb-6' src="https://api.centromedicoosi.com/img/osi/logologin.png" alt=""  loading='lazy'/>
                 <h1 className="text-blue-700 font-black ">BIENVENIDO</h1>
                 <h2 className='text-gray-500 font-semibold'>Inicia Sesión</h2>
 
@@ -27,7 +27,7 @@ export default function Login({ onSubmit }: { onSubmit: (data: LoginForm) => voi
                     </Input>
                     <button
                         type="submit"
-                        className="w-full bg-green-600 text-white py-2 rounded hover:bg-blue-700 disabled:opacity-50"
+                        className="w-full bg-green-600 text-white py-2 rounded hover:bg-blue-700 disabled:opacity-50 cursor-pointer"
                     >
                         Inicia Sesión
                     </button>
