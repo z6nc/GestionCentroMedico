@@ -75,14 +75,15 @@ export function FormHorario({ medicoId, onAdd }: FormHorarioProps) {
 
         {/* Hora inicio */}
         <div className="flex flex-col">
-          <label className="text-sm font-medium text-gray-700 mb-1">
+          <label className="text-sm font-medium text-gray-700 mb-1 ">
             Hora inicio
           </label>
-          <input
-            type="time"
-            {...register("horaInicio")}
-            className="border border-gray-300 focus:border-blue-500 focus:ring focus:ring-blue-100 p-2 rounded-lg w-full outline-none transition-all duration-200"
-          />
+          <select {...register("horaInicio")} className="p-2 border rounded-lg border-gray-300">
+            {[...Array(24)].map((_, i) => {
+              const hora = `${String(i).padStart(2, "0")}:00`;
+              return <option key={hora} value={hora}>{hora}</option>;
+            })}
+          </select>
           {errors.horaInicio && (
             <p className="text-red-500 text-sm mt-1">{errors.horaInicio.message}</p>
           )}
@@ -93,23 +94,24 @@ export function FormHorario({ medicoId, onAdd }: FormHorarioProps) {
           <label className="text-sm font-medium text-gray-700 mb-1">
             Hora fin
           </label>
-          <input
-            type="time"
-            {...register("horaFin")}
-            className="border border-gray-300 focus:border-blue-500 focus:ring focus:ring-blue-100 p-2 rounded-lg w-full outline-none transition-all duration-200"
-          />
+          <select {...register("horaFin")} className="p-2 border rounded-lg  border-gray-300">
+            {[...Array(24)].map((_, i) => {
+              const hora = `${String(i).padStart(2, "0")}:00`;
+              return <option key={hora} value={hora}>{hora}</option>;
+            })}
+          </select>
           {errors.horaFin && (
             <p className="text-red-500 text-sm mt-1">{errors.horaFin.message}</p>
           )}
         </div>
       </div>
 
-        <button
-          type="submit"
-          className="bg-blue-500 text-white px-4 py-2 text-sm rounded-md hover:bg-blue-600 transition-all duration-200 cursor-pointer my-4"
-        >
-           Agregar al Carrito
-        </button>
+      <button
+        type="submit"
+        className="bg-blue-500 text-white px-4 py-2 text-sm rounded-md hover:bg-blue-600 transition-all duration-200 cursor-pointer my-4"
+      >
+        Agregar al Carrito
+      </button>
     </form>
 
   );
