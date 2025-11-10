@@ -1,6 +1,7 @@
+import type { HistoriaMedicaProps } from "../schema/historiaMedica.schema";
 export interface PropsListaAtencioMedica {
     IdHistoria: string;
-    pacienteId: string;
+    pacienteId: number;
     IDCita: string;
     medicoId: string;
     FechaCita: string;
@@ -15,11 +16,11 @@ export interface PropsListaAtencioMedica {
 }
 
 // Datos de ejemplo para historias médicas de pacientes
-export const HistoriaMedicaData: PropsListaAtencioMedica[] = [
+export const AtencionMedicaData: PropsListaAtencioMedica[] = [
     // Paciente 1
     {
         IdHistoria: "hm001",
-        pacienteId: "12345678",
+        pacienteId: 1,
         IDCita: "CIT-001",
         medicoId: "med001",
         FechaCita: "2025-01-15T10:00:00Z",
@@ -32,7 +33,7 @@ export const HistoriaMedicaData: PropsListaAtencioMedica[] = [
     },
     {
         IdHistoria: "hm002",
-        pacienteId: "12345678",
+        pacienteId: 1,
         IDCita: "CIT-002",
         medicoId: "med002",
         FechaCita: "2025-03-10T14:30:00Z",
@@ -46,7 +47,7 @@ export const HistoriaMedicaData: PropsListaAtencioMedica[] = [
     // Paciente 2
     {
         IdHistoria: "hm003",
-        pacienteId: "87654321",
+        pacienteId: 2,
         IDCita: "CIT-003",
         medicoId: "med003",
         FechaCita: "2025-02-20T09:15:00Z",
@@ -59,7 +60,7 @@ export const HistoriaMedicaData: PropsListaAtencioMedica[] = [
     },
     {
         IdHistoria: "hm004",
-        pacienteId: "87654321",
+        pacienteId: 2,
         IDCita: "CIT-004",
         medicoId: "med001",
         FechaCita: "2025-04-05T11:00:00Z",
@@ -71,3 +72,14 @@ export const HistoriaMedicaData: PropsListaAtencioMedica[] = [
         notas: "Control anual recomendado",
     },
 ];
+
+export const HistoriaDataMedicaPaciente: HistoriaMedicaProps[] =[
+    {
+        IDHistoriaMedica: "hm001",
+        pacienteId: 1,
+        edad: 30,
+        peso: "70.5",
+        altura: "175.3",
+        tipoSangre: "A+",
+    }
+]
