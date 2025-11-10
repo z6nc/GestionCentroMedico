@@ -1,5 +1,5 @@
 import { Users, Calendar, Stethoscope, Pill, CalendarSearch } from "lucide-react"
-import { VistaCitas, VistaPacientes, VistaHistoriaMedica, VistaMedico, VistaMedicamentos, VistaAnalisis, VistaDetalleMedico, VistaProgramacionMedica } from "../pages/VistaAdmin/index"
+import { VistaCitas, VistaPacientes, VistaHistoriaMedica, VistaMedico, VistaMedicamentos, VistaAnalisis, VistaDetalleMedico, VistaProgramacionMedica ,VistaHorarioMedicos } from "../pages/VistaAdmin/index"
 import { VerBoletas } from "../pages/VistaCajero/index";
 import { VistaAtencionMedica } from "../pages/VistaMedico";
 import type { SidebarItem } from "../types/siderBarItem.types";
@@ -23,6 +23,8 @@ export const sidebarItems: SidebarItem[] = [
             { path: "/dashboard/pacientes", element: <VistaPacientes />, allowedRoles: ["administrativo", "enfermero"] },
             { path: "/dashboard/citas", element: <VistaCitas />, allowedRoles: ["administrativo", "enfermero"] },
             { path: "/dashboard/historia-medica/:dni", element: <VistaHistoriaMedica />, allowedRoles: ["administrativo", "enfermero"] },
+            { path: "/dashboard/horario-medicos", element: <VistaHorarioMedicos />, allowedRoles: ["administrativo", "enfermero"] },
+
         ]
     },
 
@@ -60,6 +62,8 @@ export const ItemLabelNavbar = [
         items: [
             { icon: Users, label: "Pacientes", path: "/dashboard/pacientes" },
             { icon: Calendar, label: "Citas", path: "/dashboard/citas" },
+            { icon: Calendar, label: "Horario Medicos", path: "/dashboard/horario-medicos" },
+
         ]
     },
     {
