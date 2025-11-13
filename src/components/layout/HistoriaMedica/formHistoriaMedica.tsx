@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Input, InputSelect } from "../../common/InputCustom";
+import { Input, InputSelect, InputTextarea } from "../../common/InputCustom";
 import { ItemFormsIcon } from '../../../data/itemFormsIcon';
 import type { HistoriaMedicaProps } from '../../../schema/historiaMedica.schema';
 import { HistoriaMedicaSchema } from '../../../schema/historiaMedica.schema';
@@ -29,8 +29,8 @@ export function FormModalHistoriaMedica({
 
   // ✅ Corrección: usar la función que añade pacienteId
   const handleFormSubmit = (data: HistoriaMedicaProps) => {
-    const historiaCompleta = { 
-      ...data, 
+    const historiaCompleta = {
+      ...data,
       pacienteId,
     };
     onSubmit(historiaCompleta);
@@ -48,37 +48,7 @@ export function FormModalHistoriaMedica({
       onSubmit={handleSubmit(handleFormSubmit)} // ✅ aquí estaba el error
       className="flex flex-col gap-3 text-gray-50 overflow-y-auto max-h-[500px]"
     >
-      <Input
-        id="edadPaciente"
-        register={register("edad")}
-        error={errors.edad?.message}
-        type="text"
-        placeholder="Edad del Paciente"
-      >
-        {ItemFormsIcon.dni}
-      </Input>
-
-      <Input
-        id="alturaPaciente"
-        register={register("altura")}
-        error={errors.altura?.message}
-        type="text"
-        placeholder="Altura del Paciente"
-      >
-        {ItemFormsIcon.usuario}
-      </Input>
-
-      <Input
-        id="pesoPaciente"
-        register={register("peso")}
-        error={errors.peso?.message}
-        type="text"
-        placeholder="Peso del Paciente"
-      >
-        {ItemFormsIcon.usuario}
-      </Input>
-
-      <InputSelect
+       <InputSelect
         id="tipoSangrePaciente"
         register={register("tipoSangre")}
         error={errors.tipoSangre?.message}
@@ -87,6 +57,37 @@ export function FormModalHistoriaMedica({
       >
         {ItemFormsIcon.altura}
       </InputSelect>
+      
+      <Input
+        id="alergiasPaciente"
+        register={register("alergias")}
+        error={errors.alergias?.message}
+        type="text"
+        placeholder="Alergias del Paciente"
+      >
+        {ItemFormsIcon.dni}
+      </Input>
+
+      <InputTextarea
+        id="antecedentesFamiliaresPaciente"
+        register={register("antecedentesFamiliares")}
+        error={errors.antecedentesFamiliares?.message}
+        placeholder="Antecedentes Familiares del Paciente"
+      >
+        {ItemFormsIcon.usuario}
+      </InputTextarea>
+
+      <Input
+        id="enfermedadesCronicasPaciente"
+        register={register("enfermedadesCronicas")}
+        error={errors.enfermedadesCronicas?.message}
+        type="text"
+        placeholder="Enfermedades Crónicas del Paciente"
+      >
+        {ItemFormsIcon.usuario}
+      </Input>
+
+     
 
       <button
         type="submit"

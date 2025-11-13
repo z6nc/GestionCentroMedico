@@ -49,7 +49,7 @@ export async function loginRequest(payload: LoginPayload): Promise<PropsUser> {
 
   const user = fakeUsers.find((u) => u.email === payload.email);
 
-  if (!user ) {
+  if (!user) {
     // Contraseña de prueba para todos: '1234'
     throw new Error('Email o contraseña incorrectos');
   }
