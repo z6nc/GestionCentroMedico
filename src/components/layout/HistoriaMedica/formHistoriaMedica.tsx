@@ -7,34 +7,32 @@ import type { HistoriaMedicaProps } from '../../../schema/historiaMedica.schema'
 import { HistoriaMedicaSchema } from '../../../schema/historiaMedica.schema';
 
 interface FormModalHistoriaMedicaProps {
-  onSubmit: (data: HistoriaMedicaProps) => void;
+  onSubmitt: (data: Omit<HistoriaMedicaProps, "mensaje">) => void;
   initialData?: Partial<HistoriaMedicaProps>; // datos iniciales (para editar)
   mode: 'agregar' | 'editar'; // modo del formulario
   pacienteId: number; // ID del paciente al que pertenece la historia
+  loading: boolean; // estado de carga para deshabilitar el botón
+  error?: string | null; // mensaje de error para mostrar en el formulario
 }
 
 const optionsTipoSangre = ["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"];
 
 export function FormModalHistoriaMedica({
-  onSubmit,
+  onSubmitt,
   initialData,
   mode = 'agregar',
-  pacienteId,
+  loading,
 }: FormModalHistoriaMedicaProps) {
 
-  const { register, handleSubmit, formState: { errors }, reset } = useForm<HistoriaMedicaProps>({
-    resolver: zodResolver(HistoriaMedicaSchema),
-    defaultValues: initialData, // valores iniciales si existen
+  const CargaLogin = loading ? "pointer-events-none opacity-50" : "pointer-events-auto opacity-100";
+
+
+  const { register, handleSubmit, formState: { errors }, reset } = useForm<Partial<HistoriaMedicaProps>>({
+    resolver: zodResolver(HistoriaMedicaSchema.partial()), // 💥 acepta datos incompletos
+    defaultValues: initialData,
   });
 
-  // ✅ Corrección: usar la función que añade pacienteId
-  const handleFormSubmit = (data: HistoriaMedicaProps) => {
-    const historiaCompleta = {
-      ...data,
-      pacienteId,
-    };
-    onSubmit(historiaCompleta);
-  };
+
 
   // ✅ Reset cuando cambian los datos iniciales (modo editar)
   useEffect(() => {
@@ -43,12 +41,13 @@ export function FormModalHistoriaMedica({
     }
   }, [initialData, reset]);
 
+
   return (
     <form
-      onSubmit={handleSubmit(handleFormSubmit)} // ✅ aquí estaba el error
+      onSubmit={handleSubmit(onSubmitt)} // ✅ aquí estaba el error
       className="flex flex-col gap-3 text-gray-50 overflow-y-auto max-h-[500px]"
     >
-       <InputSelect
+      <InputSelect
         id="tipoSangrePaciente"
         register={register("tipoSangre")}
         error={errors.tipoSangre?.message}
@@ -57,7 +56,7 @@ export function FormModalHistoriaMedica({
       >
         {ItemFormsIcon.altura}
       </InputSelect>
-      
+
       <Input
         id="alergiasPaciente"
         register={register("alergias")}
@@ -86,13 +85,21 @@ export function FormModalHistoriaMedica({
       >
         {ItemFormsIcon.usuario}
       </Input>
+      <Input
+        id="fechaCreacionPaciente"
+        register={register("fechaCreacion")}
+        error={errors.fechaCreacion?.message}
+        type="date"
+        placeholder="Fecha de Creación"
+      >
+        {ItemFormsIcon.calendario}
+      </Input>
 
-     
 
       <button
         type="submit"
         className={`${mode === 'editar' ? 'bg-green-600' : 'bg-blue-600'} 
-          text-white py-2 rounded-lg mt-3 transition hover:opacity-90 cursor-pointer`}
+          text-white py-2 rounded-lg mt-3 transition hover:opacity-90 cursor-pointer ${CargaLogin}`}
       >
         {mode === 'editar' ? 'Actualizar historia médica' : 'Guardar historia médica'}
       </button>

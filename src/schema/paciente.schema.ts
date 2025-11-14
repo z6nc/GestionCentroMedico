@@ -20,13 +20,7 @@ export const pacienteSchema = z.object({
         z.boolean()
     )
 
-    // ESTO ES PARA  HISTORIA MEDICA FUTURAMENTE
-    // Edad : z.string().min(1, "Por favor ingresa la edad del paciente"),
-    // TipodeSangre: z
-    //     .enum(["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"])
-    //     .optional(),
-    // PesoPaciente: z.string(),
-    // AlturaPaciente: z.string(),
+
 });
 
 export type Paciente = z.infer<typeof pacienteSchema>;

@@ -8,16 +8,11 @@ export const columnasPacientes = (handleEditar: (p: Paciente) => void): Column<P
     { header: "DNI", accessor: "dni" },
     { header: "Nombre", accessor: "nombre" },
     { header: "Apellido", accessor: "apellido" },
-    // { header: "Género", accessor: "Genero" },
     { header: "Fecha de Nacimiento", accessor: "fechaNacimiento" },
-    // { header: "Edad", accessor: "Edad" },
     { header: "Teléfono", accessor: "telefono" },
     { header: "Dirección", accessor: "direccion" },
     { header: "Email", accessor: "email" },
     { header: "Estado", accessor: "estado"},
-    //{ header: "Tipo de Sangre", accessor: "TipodeSangre" },
-    //{ header: "Peso", accessor: "PesoPaciente" },
-    //{ header: "Altura", accessor: "AlturaPaciente" },
     {
         header: "Acciones",
         cell: (row: Paciente) => (

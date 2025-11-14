@@ -33,7 +33,7 @@ export function ProfileCard<T extends object>({
             </div>
 
             {isLoading && <p className="text-center text-gray-500">Cargando datos...</p>}
-            {isError && <p className="text-center text-red-500">Error: {isError}</p>}
+            {isError && <p className="text-center text-red-500"> {isError}</p>}
 
             {!isLoading && !isError && (
                 <>
