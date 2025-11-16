@@ -1,8 +1,10 @@
 import useSWR from "swr";
 import type { MedicoProps } from "../schema/medicos.schema";
 
-const fetcher = (url: string) => fetch(url).then(res => res.json());
-
+const fetcher = (url: string) => fetch(url).then(res => {
+  if (!res.ok) throw new Error('Error en la petición');
+  return res.json();
+});
 
 export function useMedicosPorEspecialidad(especialidad?: string) {
   const url = especialidad
@@ -21,4 +23,47 @@ export function useMedicosPorEspecialidad(especialidad?: string) {
   };
   return { medicos: data, error, mutate, eliminarMedico };
 
+}
+
+
+interface Horario {
+  numero: number;
+  fecha: string;
+  horaInicio: string;
+  horaFin: string;
+  medicoId: number;
+  consultorio: string;
+  disponible: string;
+}
+
+export interface MedicoConHorarios {
+  numero: number;
+  nombre: string;
+  apellido: string;
+  especialidad: string;
+  dni: string | null;
+  telefono: string | null;
+  email: string;
+  horarios: Horario[];
+}
+export function useDisponiblidadHorarioMedicoEspecialidad(especialidad: string) {
+  const { data, error, isLoading, mutate } = useSWR<MedicoConHorarios[]>(
+    especialidad ? `http://localhost:8189/solicitudcita/horariosdisponibles?especialidad=${especialidad}` : null,
+    fetcher,
+    {
+      revalidateOnFocus: false,
+      revalidateOnReconnect: false,
+    }
+  );
+
+  console.log('Especialidad:', especialidad);
+  console.log('Datos recibidos:', data);
+  console.log('Error:', error);
+
+  return { 
+    disponibilidades: data, 
+    error,
+    isLoading,
+    mutate
+  };
 }
