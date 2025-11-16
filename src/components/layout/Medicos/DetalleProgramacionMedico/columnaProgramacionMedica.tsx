@@ -6,7 +6,7 @@ import { Trash } from "lucide-react";
  
 
 
-export const columnasHorarioMedico = (EliminarHorario: (numero: number) => void): Column<HorarioMedico>[] => [
+export const columnasHorarioMedico = (EliminarHorario: (numero: number , medicoId: string) => void): Column<HorarioMedico>[] => [
     { header: "ID", accessor: "medicoId" },
     { header: "Fecha", accessor: "fecha" },
     { header: "Hora de inicio", accessor: "horaInicio" },
@@ -19,7 +19,7 @@ export const columnasHorarioMedico = (EliminarHorario: (numero: number) => void)
             <div className="flex flex-wrap gap-2">
 
                 <button
-                    onClick={() => EliminarHorario(row.numero!)}
+                    onClick={() => EliminarHorario(row.numero!, row.medicoId)}
                     className="ml-2 px-3 py-1 text-red-400 border border-red-500 rounded-md hover:bg-green-50 cursor-pointer"
                 >
                     <Trash />

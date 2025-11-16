@@ -7,3 +7,4 @@ export * from "./vistaAnalisis";
 export * from "./VistaDetalleMedico";
 export * from "./vistaProgramacionMedico";
 export * from "../vistaEfermero/vistaHorarioMedicos";
+export * from "./VistaHorarioMedicosAdministrador";

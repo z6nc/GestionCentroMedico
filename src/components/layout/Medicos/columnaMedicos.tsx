@@ -1,7 +1,7 @@
 import type { MedicoProps } from "../../../schema/medicos.schema";
 import type { Column } from "../../common/Tablas/tabla";
 import { Link } from "react-router-dom";
-import { UserPen, CalendarClock, FileBadge, Trash2 } from "lucide-react";
+import { UserPen, CalendarClock, Trash2 } from "lucide-react";
 
 interface ColumnasMedicosProps {
   handleEditar: (p: MedicoProps) => void;
@@ -20,12 +20,12 @@ export const columnasMedicos = ({ handleEditar, handleEliminar }: ColumnasMedico
     header: "Acciones",
     cell: (row: MedicoProps) => (
       <div className="flex flex-wrap gap-2">
-        <Link to={`/dashboard/historia-medica/${row.numero}`}>
+        {/* <Link to={`/dashboard/historia-medica/${row.numero}`}> */}
         {/* historia medica */}
-          <button className="ml-2 px-3 py-1 bg-blue-400 border text-white rounded-full cursor-pointer inline-flex items-center">
+          {/* <button className="ml-2 px-3 py-1 bg-blue-400 border text-white rounded-full cursor-pointer inline-flex items-center">
             <FileBadge />
           </button>
-        </Link>
+        </Link> */}
 
         <Link to={`/dashboard/programacion-medica/${row.numero}`}>
           <button className="ml-2 px-3 py-1 bg-green-500 border text-white rounded-full cursor-pointer">

@@ -14,7 +14,7 @@ export interface HorarioMedico {
 
 const fetcher = (url: string) => fetch(url).then(res => res.json());
 
-export function useHorarioMedico() {
+export function useCitas() {
   const { data, error } = useSWR<HorarioMedico[]>("http://localhost:8085/horariomedico/listar", fetcher);
 
   const EliminarHorario = async (numero: number , medicoId: string) => {
@@ -47,20 +47,20 @@ export function useHorarioMedico() {
   };
 }
 
-export function useHorariosPorMedico(medicoId: string | null) {
-  const { data, error, isLoading } = useSWR<HorarioMedico[]>(
-    medicoId
-      ? `http://localhost:8185/disponibilidad/disponibles?medicoId=${medicoId}`
-      : null, // No hace fetch si medicoId es null
-    fetcher
-  );
-
-  return {
-    horariosFiltrados: data || [],
-    isLoading,
-    error
-  };
-}
+// export function useCitasPorEspecialidad(especialidad: string | null) {
+//   const { data, error, isLoading } = useSWR<HorarioMedico[]>(
+//     especialidad
+//       ? `http://localhost:8189/solicitudcita/horariosdisponibles?especialidad=${especialidad}`
+//       : null, // No hace fetch si especialidad es null
+//     fetcher
+//     mutate(`http://localhost:8189/solicitudcita/horariosdisponibles?especialidad=${especialidad}`)
+//   );
+//   return {
+//     horariosFiltradosEspecialidad: data || [],
+//     isLoading,
+//     error
+//   };
+// }
 
 
 

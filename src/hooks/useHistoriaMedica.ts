@@ -1,6 +1,7 @@
 import useSWR, { mutate } from "swr";
 import { useCallback } from "react";
 import type { HistoriaMedicaProps } from "../schema/historiaMedica.schema";
+import type { Paciente } from "../schema/paciente.schema";
 
 const API_URL = "http://localhost:8088/historiaMedica";
 
@@ -19,7 +20,6 @@ export function useHistoriaPorPaciente(pacienteId?: number) {
     revalidateOnFocus: false,
   });
 
-  // Guardar historia (POST)
   const guardarHistoria = useCallback(
     async (payload: Omit<HistoriaMedicaProps, "mensaje">) => {
       const body = { ...payload, pacienteId: payload.pacienteId }; // asegúrate pacienteId presente
@@ -46,7 +46,6 @@ export function useHistoriaPorPaciente(pacienteId?: number) {
     [key]
   );
 
-  // Actualizar historia (PUT)
   const actualizarHistoria = useCallback(
     async (id: number, payload: Partial<HistoriaMedicaProps>) => {
       const res = await fetch(`${API_URL}/actualizar/${id}`, {
@@ -77,5 +76,53 @@ export function useHistoriaPorPaciente(pacienteId?: number) {
     error: error instanceof Error ? error.message : null,
     guardarHistoria,
     actualizarHistoria,
+  };
+}
+
+export interface CitaDTO {
+  numero: number;
+  pacienteId: string;
+  dniPaciente: string;
+  horarioId: string;
+  idDoctor: string;
+  motivo: string;
+  fecha: Date; // o Date, según corresponda
+  tipoCita: string; // CONSULTA | CONTROL | EMERGENCIA | TELECONSULTA
+  costo: number;
+  estado: "RESERVADA" | "CANCELADA" | "FINALIZADA";
+}
+
+export interface AtencionMedicaDTO {
+  idAtencion: number;
+  diagnostico: string;
+  tratamiento: string;
+  descripcion: string;
+  FechaAtencionMedica: string;
+  // Agrega más campos si tu AtencionMedicaDTO tiene más
+}
+
+export interface CitaConAtencion {
+  cita: CitaDTO;
+  atencion: AtencionMedicaDTO | null; // Puede ser null si no tiene atención
+}
+
+export interface ExpedienteMedico {
+   paciente:Paciente;
+   historialMedico: HistoriaMedicaProps;
+   listaCitas: CitaConAtencion[];
+}
+
+export function useExpedientesMedicos(pacienteId: string | null) {
+  const { data, error, isLoading } = useSWR<ExpedienteMedico>( // También cambié a singular
+    pacienteId
+      ? `http://localhost:8193/expediente/paciente/${pacienteId}`
+      : null,
+    fetcher
+  );
+
+  return {
+    expediente: data || null, // Cambié el nombre porque es singular
+    isLoading,
+    error
   };
 }

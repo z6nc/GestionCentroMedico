@@ -1,47 +1,41 @@
-import type { Paciente } from "../../../schema/paciente.schema";
-import type { PropsListaAtencioMedica } from "../../../data/historiaMedica.data";
+// import type { Paciente } from "../../../schema/paciente.schema";
+// import type { PropsListaAtencioMedica } from "../../../data/historiaMedica.data";
 import { useState } from "react";
 import { AppointmentCard } from "./AppointmentCard";
-import { DetalleHistoriaMedica } from "./detalleHistoriaMedica";
+import { DetalleHistoriaMedica } from "./detalleHistoriaMedica"
+import type { ExpedienteMedico } from "../../../hooks/useHistoriaMedica";
 
-interface HistoriaMedicaDataProps {
-    pacienteProps: Paciente | null;
-    ListaAtencionProps: PropsListaAtencioMedica[];
-}
+// interface HistoriaMedicaDataProps {
+//     pacienteProps: Paciente | null;
+//     ListaAtencionProps: PropsListaAtencioMedica[];
+// }
 
-export function HistoriaMedicaPaciente({
-    pacienteProps,
-    ListaAtencionProps,
-}: HistoriaMedicaDataProps) {
+export function HistoriaMedicaPaciente(ExpedienteClinico: ExpedienteMedico) {
     const [selectedId, setSelectedId] = useState<string | null>(null);
 
     const handleClick = (id: string) => {
         setSelectedId(prev => (prev === id ? null : id));
     };
 
-    // Pasar valores por defecto a DetalleHistoriaMedica para que nunca falte nada
-    const numero = pacienteProps?.numero ?? 0; // si 0 significa "sin cargar" en tu app
-    const nombre = pacienteProps?.nombre ?? "—";
-    const apellido = pacienteProps?.apellido ?? "—";
 
     return (
         <section className="text-black flex p-9 gap-9">
-            {/* Siempre renderizamos DetalleHistoriaMedica; ProfileCard internamente muestra error o loading */}
             <DetalleHistoriaMedica
-                Idpaciente={numero}
-                NombrePaciente={nombre}
-                ApellidoPaciente={apellido}
+                Idpaciente={ExpedienteClinico.paciente.numero || 0}
+                NombrePaciente={ExpedienteClinico.paciente.nombre}
+                ApellidoPaciente={ExpedienteClinico.paciente.apellido}
             />
 
             <div className="flex-1 bg-white rounded-lg shadow-md p-5">
-                {ListaAtencionProps.length > 0 ? (
+                {ExpedienteClinico.listaCitas.length > 0 ? (
                     <div className="flex flex-col gap-6">
-                        {ListaAtencionProps.map((historia) => (
+                        {ExpedienteClinico.listaCitas.map((historia) => (
                             <AppointmentCard
-                                key={historia.IdHistoria}
-                                citaMedica={historia}
-                                isSelected={selectedId === historia.IdHistoria}
-                                onClick={() => handleClick(historia.IdHistoria)}
+                                key={historia.cita.numero}
+                                citasMedica={historia.cita}
+                                atencionMedica={historia.atencion}
+                                isSelected={selectedId === historia.cita.numero.toString()}
+                                onClick={() => handleClick(historia.cita.numero.toString())}
                             />
                         ))}
                     </div>

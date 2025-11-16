@@ -1,5 +1,5 @@
 import { Users, Calendar, Stethoscope, Pill, CalendarSearch } from "lucide-react"
-import { VistaCitas, VistaPacientes, VistaHistoriaMedica, VistaMedico, VistaMedicamentos, VistaAnalisis, VistaDetalleMedico, VistaProgramacionMedica ,VistaHorarioMedicos } from "../pages/VistaAdmin/index"
+import { VistaCitas, VistaPacientes, VistaHistoriaMedica, VistaMedico, VistaMedicamentos, VistaAnalisis, VistaDetalleMedico, VistaProgramacionMedica ,VistaHorarioMedicos,VistaHorarioMedicosAdministrador } from "../pages/VistaAdmin/index"
 import { VerBoletas } from "../pages/VistaCajero/index";
 import { VistaAtencionMedica } from "../pages/VistaMedico";
 import type { SidebarItem } from "../types/siderBarItem.types";
@@ -14,14 +14,14 @@ export const sidebarItems: SidebarItem[] = [
             { path: "/dashboard/programacion-medica/:medicoId", element: <VistaProgramacionMedica />, allowedRoles: ["administrativo"] },
             { path: "/dashboard/lista-medicamentos", element: <VistaMedicamentos />, allowedRoles: ["administrativo", "cajero"] },
             { path: "/dashboard/analisis", element: <VistaAnalisis />, allowedRoles: ["administrativo"] },
-
+            { path: "/dashboard/ListaHorarioMedicos", element: <VistaHorarioMedicosAdministrador />, allowedRoles: ["administrativo"] },
         ]
     },
     {
         Categoria: "enfermero",
         itemsLabel: [
             { path: "/dashboard/pacientes", element: <VistaPacientes />, allowedRoles: ["administrativo", "enfermero"] },
-            { path: "/dashboard/citas", element: <VistaCitas />, allowedRoles: ["administrativo", "enfermero"] },
+            { path: "/dashboard/citas/:pacienteId", element: <VistaCitas />, allowedRoles: ["administrativo", "enfermero"] },
             { path: "/dashboard/historia-medica/:dni", element: <VistaHistoriaMedica />, allowedRoles: ["administrativo", "enfermero"] },
             { path: "/dashboard/horario-medicos", element: <VistaHorarioMedicos />, allowedRoles: ["administrativo", "enfermero"] },
 
@@ -53,6 +53,7 @@ export const ItemLabelNavbar = [
         Categoria: "administrativo",
         items: [
             { icon: Stethoscope, label: "Lista Medicos", path: "/dashboard/lista-medicos" },
+            { icon: Calendar, label: "Lista Horario Medicos", path: "/dashboard/ListaHorarioMedicos" },
             { icon: Pill, label: "Medicamentos", path: "/dashboard/lista-medicamentos" },
             { icon: Pill, label: "Analisis", path: "/dashboard/analisis" },
         ]
@@ -61,7 +62,7 @@ export const ItemLabelNavbar = [
         Categoria: "enfermero",
         items: [
             { icon: Users, label: "Pacientes", path: "/dashboard/pacientes" },
-            { icon: Calendar, label: "Citas", path: "/dashboard/citas" },
+            { icon: Calendar, label: "Citas", path: "/dashboard/citas/:pacienteId" },
             { icon: Calendar, label: "Horario Medicos", path: "/dashboard/horario-medicos" },
 
         ]

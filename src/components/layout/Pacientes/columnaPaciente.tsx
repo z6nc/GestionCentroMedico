@@ -1,7 +1,7 @@
 import type { Paciente } from "../../../schema/paciente.schema";
 import type { Column } from "../../common/Tablas/tabla";
 import { Link } from "react-router-dom";
-import { FileBadge, UserPen } from "lucide-react";
+import { FileBadge, UserPen ,ClipboardClock} from "lucide-react";
 
 export const columnasPacientes = (handleEditar: (p: Paciente) => void): Column<Paciente>[] => [
     {header : "Número", accessor: "numero" },
@@ -21,6 +21,11 @@ export const columnasPacientes = (handleEditar: (p: Paciente) => void): Column<P
                 <Link to={`/dashboard/historia-medica/${row.numero}`}>
                     <button className="ml-2 px-3 py-1 bg-blue-400 border text-white rounded-full cursor-pointer inline-flex items-center">
                          <FileBadge />
+                    </button>
+                </Link>
+                 <Link to={`/dashboard/citas/${row.numero}`}>
+                    <button className="ml-2 px-3 py-1 bg-green-500 border text-white rounded-full cursor-pointer inline-flex items-center">
+                         <ClipboardClock />
                     </button>
                 </Link>
                 <button

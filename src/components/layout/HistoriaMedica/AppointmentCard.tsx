@@ -1,15 +1,17 @@
 
-import type { PropsListaAtencioMedica } from "../../../data/historiaMedica.data"
+// import type { PropsListaAtencioMedica } from "../../../data/historiaMedica.data"
 import { ChevronRight ,Calendar, FileText, Stethoscope  ,Pill} from "lucide-react"
 import { ModalCustom } from "../../common/Modal/modalCustom"
+import type { CitaDTO ,AtencionMedicaDTO } from "../../../hooks/useHistoriaMedica";
 
 interface AppointmentCardProps {
-    citaMedica: PropsListaAtencioMedica
+    citasMedica: CitaDTO | null;
+    atencionMedica: AtencionMedicaDTO | null;
     isSelected: boolean
     onClick: () => void
 }
 
-export function AppointmentCard({ citaMedica, isSelected, onClick }: AppointmentCardProps) {
+export function AppointmentCard({ citasMedica, atencionMedica, isSelected, onClick }: AppointmentCardProps) {
  
     return (
         <button
@@ -22,11 +24,11 @@ export function AppointmentCard({ citaMedica, isSelected, onClick }: Appointment
             <div className="flex items-center justify-between">
                 <div className="flex-1">
                     <div className="flex items-center gap-4 mb-3">
-                        <div className="bg-[#00c950] text-white px-3 py-1 rounded-full text-sm font-semibold">{citaMedica.IDCita}</div>
-                        <span className="text-gray-600 text-sm">📅 {citaMedica.FechaCita}</span>
+                        <div className="bg-[#00c950] text-white px-3 py-1 rounded-full text-sm font-semibold">{citasMedica?.numero}</div>
+                        <span className="text-gray-600 text-sm">📅 {citasMedica?.fecha.toString()}</span>
                     </div>
                     <div className="flex items-center gap-2">
-                        <span className="text-2xl font-bold text-gray-800">S/{citaMedica.costoCita}</span>
+                        <span className="text-2xl font-bold text-gray-800">S/{citasMedica?.costo}</span>
                         <span className="text-gray-500 text-sm">costo de cita</span>
                     </div>
                 </div>
@@ -48,7 +50,7 @@ export function AppointmentCard({ citaMedica, isSelected, onClick }: Appointment
                                 <Calendar className="w-5 h-5 text-[#00c950] mt-1 flex-shrink-0" />
                                 <div>
                                     <p className="text-sm font-semibold text-gray-600">Fecha de Atención</p>
-                                    <p className="text-gray-800 font-medium">{citaMedica.FechaAtencionMedica}</p>
+                                    <p className="text-gray-800 font-medium">{atencionMedica?.FechaAtencionMedica}</p>
                                 </div>
                             </div>
                         </div>
@@ -59,7 +61,7 @@ export function AppointmentCard({ citaMedica, isSelected, onClick }: Appointment
                                 <FileText className="w-5 h-5 text-[#00c950] mt-1 flex-shrink-0" />
                                 <div>
                                     <p className="text-sm font-semibold text-gray-600">Descripción</p>
-                                    <p className="text-gray-800">{citaMedica.descripcion}</p>
+                                    <p className="text-gray-800">{atencionMedica?.descripcion}</p>
                                 </div>
                             </div>
                         </div>
@@ -70,7 +72,7 @@ export function AppointmentCard({ citaMedica, isSelected, onClick }: Appointment
                                 <Stethoscope className="w-5 h-5 text-[#00c950] mt-1 flex-shrink-0" />
                                 <div>
                                     <p className="text-sm font-semibold text-gray-600">Diagnóstico</p>
-                                    <p className="text-gray-800">{citaMedica.diagnostico}</p>
+                                    <p className="text-gray-800">{atencionMedica?.diagnostico}</p>
                                 </div>
                             </div>
                         </div>
@@ -81,7 +83,7 @@ export function AppointmentCard({ citaMedica, isSelected, onClick }: Appointment
                                 <Pill className="w-5 h-5 text-[#00c950] mt-1 flex-shrink-0" />
                                 <div>
                                     <p className="text-sm font-semibold text-gray-600">Tratamiento</p>
-                                    <p className="text-gray-800">{citaMedica.tratamiento}</p>
+                                    <p className="text-gray-800">{atencionMedica?.tratamiento}</p>
                                 </div>
                             </div>
                         </div>
