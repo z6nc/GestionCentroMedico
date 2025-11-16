@@ -3,10 +3,11 @@ import { Calendar, momentLocalizer } from "react-big-calendar";
 import type { View } from "react-big-calendar";
 import moment from "moment";
 import "react-big-calendar/lib/css/react-big-calendar.css";
-import type { CarritoHorario } from "../../../../hooks/useCarritoMedico";
+// import type { CarritoHorario } from "../../../../hooks/useCarritoMedico";
+import type { HorarioMedico } from "../../../../hooks/useHorarioMedico";
 
 interface CalendarioProps {
-  horarios: CarritoHorario[];
+  horarios: HorarioMedico[];
 }
 
 const localizer = momentLocalizer(moment);
@@ -29,7 +30,7 @@ export function CalendarioHorarios({ horarios }: CalendarioProps) {
         resource: h,
       };
     })
-    .filter(Boolean) as { title: string; start: Date; end: Date; resource: CarritoHorario }[];
+    .filter(Boolean) as { title: string; start: Date; end: Date; resource: HorarioMedico }[];
 
   // manejar navegación: actualizar el estado con la nueva fecha seleccionada por el calendario
   const handleNavigate = (newDate: Date, view: View) => {

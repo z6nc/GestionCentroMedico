@@ -29,10 +29,33 @@ export function useCarritoHorario() {
         mutate("http://localhost:8094/carritohorario/listar"); // Refresca SWR
     };
 
+    const ActualizarHorarios = async () => {
+        try {
+            // 1. Envía los horarios a programación médica
+            const response = await fetch(
+                "http://localhost:8087/programacionmedica/nueva/1",
+                { method: "POST" }
+            );
+
+            if (!response.ok) {
+                throw new Error(`Error al actualizar horarios: ${response.status}`);
+            }
+            const result = await response.json().catch(() => null);
+
+            await mutate("http://localhost:8094/carritohorario/listar");
+            await mutate("http://localhost:8085/horariomedico/listar"); 
+            return result;
+        } catch (error) {
+            console.error("Error en ActualizarHorarios:", error);
+            throw error;
+
+        }
+    };
     return {
-        horarios: data || [],
+        ListaCarritoHorarios: data || [],
         error,
         agregarHorario,
         quitarHorario,
+        ActualizarHorarios
     };
 }
