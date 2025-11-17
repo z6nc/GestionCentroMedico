@@ -49,9 +49,21 @@ export const BoletaCita = ({ Databoletacita }: { Databoletacita: PropsCitaConfir
                         </span>
                     </div>
                     <div className="flex justify-between border-b pb-2">
-                        <span className="text-gray-600">Fecha:</span>
+                        <span className="text-gray-600">Fecha de Creacion:</span>
                         <span className="font-semibold">
                             {new Date(Databoletacita?.fecha || '').toLocaleDateString('es-ES', {
+                                 timeZone: 'UTC',
+                                day: 'numeric',
+                                month: 'long',
+                                year: 'numeric'
+                            })}
+                        </span>
+                    </div>
+                    <div className="flex justify-between border-b pb-2">
+                        <span className="text-gray-600">Fecha de la cita:</span>
+                        <span className="font-semibold">
+                            {new Date(filtradoHorario?.fecha || '').toLocaleDateString('es-ES', {
+                                 timeZone: 'UTC',
                                 day: 'numeric',
                                 month: 'long',
                                 year: 'numeric'

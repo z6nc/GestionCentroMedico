@@ -84,30 +84,30 @@ export function VistaCitas() {
 
     const { confirmarCita, citaConfirmada, isLoadingCita, errorCita } = useConfirmarCita();
 
-     const handleConfirm = async () => {
-    try {
-        console.log('Enviando datos:', {
-            idPaciente: pacienteId ? Number(pacienteId) : 0,
-            idDoctor: selectedDoctor?.numero || 0,
-            horarioId: selectedHorarioId?.numero || 0,
-            motivo: motivo,
-            tipoCita: tipocita
-        });
+    const handleConfirm = async () => {
+        try {
+            console.log('Enviando datos:', {
+                idPaciente: pacienteId ? Number(pacienteId) : 0,
+                idDoctor: selectedDoctor?.numero || 0,
+                horarioId: selectedHorarioId?.numero || 0,
+                motivo: motivo,
+                tipoCita: tipocita
+            });
 
-        await confirmarCita({
-            idPaciente: pacienteId ? Number(pacienteId) : 0,
-            idDoctor: selectedDoctor?.numero || 0,
-            horarioId: selectedHorarioId?.numero || 0,
-            motivo: motivo,
-            tipoCita: tipocita
-        });
-        
-        setStep(4);
-    } catch (err) {
-        console.error('Error completo:', err);
-        // Mantener en step 3 para que el usuario vea el error
-    }
-};
+            await confirmarCita({
+                idPaciente: pacienteId ? Number(pacienteId) : 0,
+                idDoctor: selectedDoctor?.numero || 0,
+                horarioId: selectedHorarioId?.numero || 0,
+                motivo: motivo,
+                tipoCita: tipocita
+            });
+
+            setStep(4);
+        } catch (err) {
+            console.error('Error completo:', err);
+            // Mantener en step 3 para que el usuario vea el error
+        }
+    };
 
     return (
         <main className="">
@@ -228,6 +228,7 @@ export function VistaCitas() {
                                                     >
                                                         <p className="font-semibold text-blue-700">
                                                             {new Date(horario.fecha).toLocaleDateString('es-ES', {
+                                                                timeZone: 'UTC',  // <-- AÑADE ESTA LÍNEA
                                                                 weekday: 'short',
                                                                 day: '2-digit',
                                                                 month: 'short'
@@ -326,10 +327,12 @@ export function VistaCitas() {
                                     {selectedDoctor.horarios.map((horario) => (
                                         <div key={horario.numero} className="border-2 border-gray-200 rounded-lg p-4">
                                             <div className="font-semibold text-gray-800 mb-3">
+
                                                 {new Date(horario.fecha).toLocaleDateString('es-ES', {
-                                                    weekday: 'long',
-                                                    day: 'numeric',
-                                                    month: 'long'
+                                                    timeZone: 'UTC',  // <-- AÑADE ESTA LÍNEA
+                                                    weekday: 'short',
+                                                    day: '2-digit',
+                                                    month: 'short'
                                                 })}
                                             </div>
                                             <div className="flex flex-col items-center gap-y-2">

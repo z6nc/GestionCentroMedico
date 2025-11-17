@@ -3,6 +3,7 @@
 import { ChevronRight, Calendar, FileText, Stethoscope, Pill } from "lucide-react"
 import { ModalCustom } from "../../common/Modal/modalCustom"
 import type { CitaDTO, AtencionMedicaDTO } from "../../../hooks/useHistoriaMedica";
+import { useHorarioMedico } from "../../../hooks/useHorarioMedico";
 
 interface AppointmentCardProps {
     citasMedica: CitaDTO | null;
@@ -12,6 +13,20 @@ interface AppointmentCardProps {
 }
 
 export function AppointmentCard({ citasMedica, atencionMedica, isSelected, onClick }: AppointmentCardProps) {
+    // call hook inside component and safely compute formatted date
+    const { horarios } = useHorarioMedico();
+
+    // Find matching horario by coercing both sides to string to avoid type mismatch,
+    // then format if a fecha is present; otherwise show a fallback.
+    const horarioFecha = horarios?.find(horario => String(citasMedica?.horarioId) === String(horario?.numero))?.fecha;
+    const formattedDate = horarioFecha
+        ? new Date(horarioFecha).toLocaleDateString('es-ES', {
+            timeZone: 'UTC',
+            day: '2-digit',
+            month: 'long',
+            year: 'numeric'
+        })
+        : '—';
 
     return (
         <button
@@ -27,11 +42,7 @@ export function AppointmentCard({ citasMedica, atencionMedica, isSelected, onCli
                         <div className="bg-[#00c950] text-white px-3 py-1 rounded-full text-sm font-semibold">{citasMedica?.numero}</div>
                         {/* <span className="text-gray-600 text-sm">📅 {citasMedica?.fecha.toString()}</span> */}
                         <span className="text-gray-600 text-sm">
-                            📅 {new Date(citasMedica?.fecha || "").toLocaleDateString('es-ES', {
-                                day: '2-digit',
-                                month: 'long',
-                                year: 'numeric'
-                            })}
+                            📅 {formattedDate}
                         </span>
                     </div>
                     <div className="flex items-center gap-2">

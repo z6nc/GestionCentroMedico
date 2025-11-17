@@ -42,11 +42,13 @@ export function VistaListaCitas() {
                                 <div className="flex items-center gap-4 mb-3">
                                     <div className="bg-[#00c950] text-white px-3 py-1 rounded-full text-sm font-semibold">{cita?.numero}</div>
                                     <span className="text-gray-600 text-sm">
-                                        📅 {new Date(cita.fecha).toLocaleDateString('es-ES', {
+                                        📅 {new Date(horarios?.find(horario => horario.numero == cita.horarioId)?.fecha).toLocaleDateString('es-ES', {
+                                            timeZone: 'UTC',
                                             day: '2-digit',
                                             month: 'long',
                                             year: 'numeric'
                                         })}
+                                        
                                     </span>
                                 </div>
                                 <ul className="text-sm text-gray-500">
