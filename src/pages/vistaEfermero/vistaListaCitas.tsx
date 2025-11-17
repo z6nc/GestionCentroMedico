@@ -41,7 +41,13 @@ export function VistaListaCitas() {
                             <div className="flex flex-col  gap-y-3">
                                 <div className="flex items-center gap-4 mb-3">
                                     <div className="bg-[#00c950] text-white px-3 py-1 rounded-full text-sm font-semibold">{cita?.numero}</div>
-                                    <span className="text-gray-600 text-sm">📅 {cita?.fecha.toString()}</span>
+                                    <span className="text-gray-600 text-sm">
+                                        📅 {new Date(cita.fecha).toLocaleDateString('es-ES', {
+                                            day: '2-digit',
+                                            month: 'long',
+                                            year: 'numeric'
+                                        })}
+                                    </span>
                                 </div>
                                 <ul className="text-sm text-gray-500">
                                     <li>DNI : <span>{pacientes?.find(paciente => paciente.numero == cita.pacienteId)?.dni}</span></li>

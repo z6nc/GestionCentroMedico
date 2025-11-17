@@ -1,8 +1,8 @@
 
 // import type { PropsListaAtencioMedica } from "../../../data/historiaMedica.data"
-import { ChevronRight ,Calendar, FileText, Stethoscope  ,Pill} from "lucide-react"
+import { ChevronRight, Calendar, FileText, Stethoscope, Pill } from "lucide-react"
 import { ModalCustom } from "../../common/Modal/modalCustom"
-import type { CitaDTO ,AtencionMedicaDTO } from "../../../hooks/useHistoriaMedica";
+import type { CitaDTO, AtencionMedicaDTO } from "../../../hooks/useHistoriaMedica";
 
 interface AppointmentCardProps {
     citasMedica: CitaDTO | null;
@@ -12,20 +12,27 @@ interface AppointmentCardProps {
 }
 
 export function AppointmentCard({ citasMedica, atencionMedica, isSelected, onClick }: AppointmentCardProps) {
- 
+
     return (
         <button
             onClick={onClick}
             className={`w-full text-left p-6 rounded-lg border-2 transition-all duration-200 ${isSelected
-                    ? "border-[#00c950] bg-green-50 shadow-md"
-                    : "border-gray-200 bg-white hover:border-[#00c950] hover:shadow-md"
+                ? "border-[#00c950] bg-green-50 shadow-md"
+                : "border-gray-200 bg-white hover:border-[#00c950] hover:shadow-md"
                 }`}
         >
             <div className="flex items-center justify-between">
                 <div className="flex-1">
                     <div className="flex items-center gap-4 mb-3">
                         <div className="bg-[#00c950] text-white px-3 py-1 rounded-full text-sm font-semibold">{citasMedica?.numero}</div>
-                        <span className="text-gray-600 text-sm">📅 {citasMedica?.fecha.toString()}</span>
+                        {/* <span className="text-gray-600 text-sm">📅 {citasMedica?.fecha.toString()}</span> */}
+                        <span className="text-gray-600 text-sm">
+                            📅 {new Date(citasMedica?.fecha || "").toLocaleDateString('es-ES', {
+                                day: '2-digit',
+                                month: 'long',
+                                year: 'numeric'
+                            })}
+                        </span>
                     </div>
                     <div className="flex items-center gap-2">
                         <span className="text-2xl font-bold text-gray-800">S/{citasMedica?.costo}</span>

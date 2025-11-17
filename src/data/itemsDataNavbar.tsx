@@ -55,6 +55,8 @@ export const ItemLabelNavbar = [
         items: [
             { icon: Stethoscope, label: "Lista Medicos", path: "/dashboard/lista-medicos" },
             { icon: Calendar, label: "Lista Horario Medicos", path: "/dashboard/ListaHorarioMedicos" },
+            { icon: Users, label: "Pacientes", path: "/dashboard/pacientes" },
+            { icon: CalendarSearch, label: "Lista Citas", path: "/dashboard/lista-citas" },
             { icon: Pill, label: "Medicamentos", path: "/dashboard/lista-medicamentos" },
             { icon: Pill, label: "Analisis", path: "/dashboard/analisis" },
         ]
