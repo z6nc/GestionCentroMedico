@@ -68,7 +68,7 @@ export function useCarritoHorario() {
         try {
             // 1. Envía los horarios a programación médica
             const response = await fetch(
-                "http://localhost:8087/programacionmedica/nueva/1",
+                "http://localhost:8187/programacioncompuesta/nuevo?idAdministrativo=1",
                 { method: "POST" }
             );
 

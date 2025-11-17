@@ -46,11 +46,16 @@ export function useHorarioMedico() {
     EliminarHorario,
   };
 }
+export interface propshoraiosPorMedico {
+  medicoId?: string;
+  fecha?: string;
+  disponible?: string;
+}
 
-export function useHorariosPorMedico(medicoId: string | null) {
+export function useHorariosPorMedico({medicoId ,fecha}: propshoraiosPorMedico) {
   const { data, error, isLoading } = useSWR<HorarioMedico[]>(
     medicoId
-      ? `http://localhost:8185/disponibilidad/disponibles?medicoId=${medicoId}`
+      ? `http://localhost:8185/disponibilidad/disponibles?medicoId=${medicoId}&fecha=${fecha || ""}`
       : null, // No hace fetch si medicoId es null
     fetcher
   );

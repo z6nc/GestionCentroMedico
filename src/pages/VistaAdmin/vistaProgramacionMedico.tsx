@@ -15,7 +15,7 @@ export function VistaProgramacionMedica() {
     const { medicoId } = useParams();
     const { medicos } = useMedicosPorEspecialidad();
     const { ListaCarritoHorarios, agregarHorario, quitarHorario, ActualizarHorarios } = useCarritoHorario();
-    const { horariosFiltrados, isLoading, error } = useHorariosPorMedico(medicoId || "");
+    const { horariosFiltrados, isLoading, error } = useHorariosPorMedico(medicoId ? {medicoId} : {});
     const { EliminarHorario } = useHorarioMedico();
 
     const handleAddHorario = (horario: Omit<CarritoHorario, "medicoId" | "id" | "numero">) => {
