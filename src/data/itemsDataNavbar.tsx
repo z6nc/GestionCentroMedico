@@ -1,5 +1,5 @@
 import { Users, Calendar, Stethoscope, Pill, CalendarSearch } from "lucide-react"
-import { VistaCitas, VistaPacientes, VistaHistoriaMedica, VistaMedico, VistaMedicamentos, VistaAnalisis, VistaDetalleMedico, VistaProgramacionMedica ,VistaHorarioMedicos,VistaHorarioMedicosAdministrador } from "../pages/VistaAdmin/index"
+import { VistaCitas, VistaPacientes, VistaListaCitas,VistaHistoriaMedica, VistaMedico, VistaMedicamentos, VistaAnalisis, VistaDetalleMedico, VistaProgramacionMedica ,VistaHorarioMedicos,VistaHorarioMedicosAdministrador } from "../pages/VistaAdmin/index"
 import { VerBoletas } from "../pages/VistaCajero/index";
 import { VistaAtencionMedica } from "../pages/VistaMedico";
 import type { SidebarItem } from "../types/siderBarItem.types";
@@ -24,6 +24,7 @@ export const sidebarItems: SidebarItem[] = [
             { path: "/dashboard/citas/:pacienteId", element: <VistaCitas />, allowedRoles: ["administrativo", "enfermero"] },
             { path: "/dashboard/historia-medica/:dni", element: <VistaHistoriaMedica />, allowedRoles: ["administrativo", "enfermero"] },
             { path: "/dashboard/horario-medicos", element: <VistaHorarioMedicos />, allowedRoles: ["administrativo", "enfermero"] },
+            { path: "/dashboard/lista-citas", element: <VistaListaCitas />, allowedRoles: ["administrativo", "enfermero"] },
 
         ]
     },
@@ -62,7 +63,7 @@ export const ItemLabelNavbar = [
         Categoria: "enfermero",
         items: [
             { icon: Users, label: "Pacientes", path: "/dashboard/pacientes" },
-            { icon: Calendar, label: "Citas", path: "/dashboard/citas/:pacienteId" },
+            { icon: CalendarSearch, label: "Lista Citas", path: "/dashboard/lista-citas" },
             { icon: Calendar, label: "Horario Medicos", path: "/dashboard/horario-medicos" },
 
         ]

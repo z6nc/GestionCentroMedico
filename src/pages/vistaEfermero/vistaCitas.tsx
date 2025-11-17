@@ -114,9 +114,8 @@ export function VistaCitas() {
             <TituloCustom titulo="Citas" />
             <section className="m-9 bg-white p-9">
                 <div>
-                    <h2>Cita para  <span>{EncontrarPaciente?.nombre} {EncontrarPaciente?.apellido}</span></h2>
+                    <h2 className="text-lg font-bold">Cita para  <span>{EncontrarPaciente?.nombre} {EncontrarPaciente?.apellido}</span></h2>
                     <h3>Dni : {EncontrarPaciente?.dni}</h3>
-
                 </div>
 
                 {/* Progress Bar */}

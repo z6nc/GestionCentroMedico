@@ -8,3 +8,4 @@ export * from "./VistaDetalleMedico";
 export * from "./vistaProgramacionMedico";
 export * from "../vistaEfermero/vistaHorarioMedicos";
 export * from "./VistaHorarioMedicosAdministrador";
+export * from "../vistaEfermero/vistaListaCitas";

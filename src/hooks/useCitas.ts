@@ -1,53 +1,7 @@
 // hooks/usePacientes.ts
-import { mutate } from "swr";
 import useSWR from "swr";
 import useSWRMutation from "swr/mutation";
 // import type  { Paciente } from "../schema/paciente.schema";
-
-export interface HorarioMedico {
-  numero: number;
-  medicoId: string;
-  fecha: Date;
-  horaInicio: string;
-  horaFin: string;
-  disponible: boolean;
-  consultorio: string;
-}
-
-const fetcher = (url: string) => fetch(url).then(res => res.json());
-
-export function useCitas() {
-  const { data, error } = useSWR<HorarioMedico[]>("http://localhost:8085/horariomedico/listar", fetcher);
-
-  const EliminarHorario = async (numero: number, medicoId: string) => {
-    try {
-      const response = await fetch(
-        `http://localhost:8085/horariomedico/eliminar/${numero}`,
-        { method: "DELETE" }
-      );
-
-      if (!response.ok) {
-        throw new Error(`Error al eliminar: ${response.status}`);
-      }
-
-      // Refresca la caché específica de SWR
-      await mutate(
-        `http://localhost:8185/disponibilidad/disponibles?medicoId=${medicoId}`
-      );
-
-    } catch (error) {
-      console.error("Error en EliminarHorario:", error);
-      throw error;
-    }
-  };
-
-  return {
-    horarios: data,
-    error,
-    mutate,
-    EliminarHorario,
-  };
-}
 
 interface PropsConfirmarCita {
   idPaciente: number;
@@ -69,6 +23,50 @@ export interface PropsCitaConfirmada {
   costo: number;
   estado: string;
 }
+
+const fetcher = (url: string) => fetch(url).then(res => res.json());
+
+export function useCitas() {
+  const LISTAR_URL = "http://localhost:8089/cita/listar";
+
+  const { data, error, isLoading, mutate } = useSWR<PropsCitaConfirmada[]>(
+    LISTAR_URL,
+    fetcher
+  );
+
+  const CancelarCita = async (numero: number) => {
+    try {
+      const response = await fetch(
+        `http://localhost:8089/cita/cancelar/${numero}`,
+        {
+          method: "DELETE",
+          
+        }
+      );
+
+      if (!response.ok) {
+        const errorText = await response.text();
+        throw new Error(`Error ${response.status}: ${errorText}`);
+      }
+
+      // Revalidar usando el mutate del hook, no el global
+      await mutate();
+
+      return await response.json();
+    } catch (error) {
+      console.error("Error en CancelarCita:", error);
+      throw error;
+    }
+  };
+
+  return {
+    ListaCitas: data || [],
+    error,
+    isLoadingCitas: isLoading,
+    CancelarCita
+  };
+}
+
 
 async function confirmarCitaFetcher(url: string, { arg }: { arg: PropsConfirmarCita }) {
   // Enviar como query params en POST

@@ -9,7 +9,7 @@ export const BoletaCita = ({ Databoletacita }: { Databoletacita: PropsCitaConfir
     const { medicos } = useMedicosPorEspecialidad('');
     const { horarios } = useHorarioMedico();
     const filtradoPaciente = pacientes?.find(p => p.numero === Databoletacita?.pacienteId);
-    const filtradoMedico = medicos?.find(m => m.numero === Databoletacita?.idDoctor);
+    const filtradoMedico = medicos?.find(m => m.numero == Databoletacita?.idDoctor);
     const filtradoHorario = horarios?.find(h => h.numero === Databoletacita?.horarioId);
     return (
 
@@ -34,13 +34,14 @@ export const BoletaCita = ({ Databoletacita }: { Databoletacita: PropsCitaConfir
                         <span className="font-semibold">{filtradoPaciente?.dni}</span>
                     </div>
                     <div className="flex justify-between border-b pb-2">
-                        <span className="text-gray-600">Especialidad:</span>
-                        <span className="font-semibold">{filtradoMedico?.especialidad}</span>
-                    </div>
-                    <div className="flex justify-between border-b pb-2">
                         <span className="text-gray-600">Médico:</span>
                         <span className="font-semibold">{filtradoMedico?.nombre}</span>
                     </div>
+                    <div className="flex justify-between border-b pb-2">
+                        <span className="text-gray-600">Especialidad:</span>
+                        <span className="font-semibold">{filtradoMedico?.especialidad}</span>
+                    </div>
+                    
                     <div className="flex justify-between border-b pb-2">
                         <span className="text-gray-600">Tipo de Cita:</span>
                         <span className="font-semibold text-indigo-600">
