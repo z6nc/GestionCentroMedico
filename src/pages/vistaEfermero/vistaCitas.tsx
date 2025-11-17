@@ -4,8 +4,11 @@ import { useState } from "react";
 import { useDisponiblidadHorarioMedicoEspecialidad } from "../../hooks/useMedicos";
 import { usePacientes } from "../../hooks/usePaciente";
 import { Fragment } from 'react';
-import {  FileText, User } from "lucide-react";
+import { Calendar, FileText, User } from "lucide-react";
 import type { MedicoConHorarios } from "../../hooks/useMedicos";
+import type { HorarioMedico } from "../../hooks/useHorarioMedico";
+import { useConfirmarCita } from "../../hooks/useCitas";
+import { BoletaCita } from "../../components/layout/Cita/boletaCita";
 
 const especialidades = ['Cardiologia', 'Dermatologia', 'Psiquiatria', 'Medicina General', 'Pediatria'];
 type PropsTipoCita = 'EMERGENCIA' | 'CONTROL' | 'TELECONSULTA' | 'CONSULTA' | 'PRESENCIAL';
@@ -38,6 +41,9 @@ const tipoCitaOpcion = [
     },
 ]
 
+
+
+
 export function VistaCitas() {
     const { pacienteId } = useParams();
     const [step, setStep] = useState(1);
@@ -46,13 +52,15 @@ export function VistaCitas() {
     const [selectedEspecialidad, setSelectedEspecialidad] = useState('');
     const { disponibilidades, error, isLoading } = useDisponiblidadHorarioMedicoEspecialidad(selectedEspecialidad);
 
-
+    // id doctor
     const [selectedDoctor, setSelectedDoctor] = useState<MedicoConHorarios | null>(null);
-    // const [selectedHorarioId, setSelectedHorarioId] = useState<number>(0);
-    const [tipocita, setTipocita] = useState<PropsTipoCita | ''>('');
-    // const [motivo, setMotivo] = useState('');
 
+    // id tipo cita 
+    const [tipocita, setTipocita] = useState<PropsTipoCita | ''>('');
+    const [selectedHorarioId, setSelectedHorarioId] = useState<HorarioMedico | null>(null);
+    const [motivo, setMotivo] = useState('');
     const EncontrarPaciente = pacientes?.find(paciente => paciente.numero === Number(pacienteId));
+
 
 
 
@@ -66,21 +74,30 @@ export function VistaCitas() {
         setStep(3);
     };
 
-    // const handleScheduleSelect = (scheduleId: number, date: string, time: string) => {
-    //     setSelectedScheduleId(scheduleId);
-    //     setSelectedDate(date);
-    //     setSelectedTime(time);
-    // };
+    const handleScheduleSelect = (horario: HorarioMedico) => {
+        setSelectedHorarioId(horario);
+    };
 
     const handleAppointmentTypeSelect = (type: PropsTipoCita) => {
         setTipocita(type);
     };
 
-    // const handleConfirm = () => {
-    //     const appointment = createAppointment();
-    //     console.log('Cita creada:', appointment);
-    //     setStep(4);
-    // };
+    const { confirmarCita, citaConfirmada, isLoadingCita, errorCita } = useConfirmarCita();
+
+    const handleConfirm = async () => {
+        try {
+            await confirmarCita({
+                idPaciente: pacienteId ? Number(pacienteId) : 0,
+                idDoctor: selectedDoctor?.numero || 0,
+                horarioId: selectedHorarioId?.numero || 0,
+                motivo: motivo,
+                tipoCita: tipocita
+            });
+            setStep(4);
+        } catch (err) {
+            console.error('Error:', err);
+        }
+    };
 
     return (
         <main className="">
@@ -289,17 +306,95 @@ export function VistaCitas() {
                                 ))}
                             </div>
                         </div>
+                        {/* Fecha y Hora */}
+                        {tipocita && (
+                            <div>
+                                <label className="flex items-center space-x-2 text-gray-700 font-medium mb-3">
+                                    <Calendar size={20} />
+                                    <span>Fecha y Hora</span>
+                                </label>
+                                <div className="flex flex-wrap gap-4">
+                                    {selectedDoctor.horarios.map((horario) => (
+                                        <div key={horario.numero} className="border-2 border-gray-200 rounded-lg p-4">
+                                            <div className="font-semibold text-gray-800 mb-3">
+                                                {new Date(horario.fecha).toLocaleDateString('es-ES', {
+                                                    weekday: 'long',
+                                                    day: 'numeric',
+                                                    month: 'long'
+                                                })}
+                                            </div>
+                                            <div className="flex flex-col items-center gap-y-2">
+                                                <button
+                                                    onClick={() => handleScheduleSelect(horario)}
+                                                    className={`p-2 rounded-lg border-2 transition-all ${selectedHorarioId?.numero === horario.numero
+                                                        ? 'border-indigo-600 bg-indigo-50'
+                                                        : 'border-gray-200 hover:border-indigo-300'
+                                                        }`}
+                                                >
+                                                    <div className="text-center text-sm font-medium text-gray-800">
+                                                        {horario.horaInicio} - {horario.horaFin}
+                                                    </div>
 
+                                                </button>
+                                                <div className="text-center text-xs text-gray-600">
+                                                    Consultorio: {horario.consultorio}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+                        )}
 
+                        {/* Motivo */}
+                        {selectedHorarioId && (
+                            <div>
+                                <label className="flex items-center space-x-2 text-gray-700 font-medium mb-3">
+                                    <FileText size={20} />
+                                    <span>Motivo de la consulta</span>
+                                </label>
+                                <textarea
+                                    value={motivo}
+                                    onChange={(e) => setMotivo(e.target.value)}
+                                    placeholder="Describe brevemente el motivo de tu consulta..."
+                                    className="w-full p-4 border-2 border-gray-200 rounded-lg focus:border-indigo-500 focus:outline-none"
+                                    rows={4}
+                                />
+                                {selectedHorarioId && motivo && (
+                                    <button
+                                        onClick={handleConfirm}
+                                        className="w-full bg-indigo-600 text-white py-3 rounded-lg hover:bg-indigo-700 transition-colors text-lg font-semibold"
+                                    >
+                                        Confirmar Cita
+                                    </button>
+                                )}
+
+                            </div>
+                        )}
 
                     </div>
-
-
                 )}
+
+
+
+                {step === 4 && citaConfirmada && (
+                    isLoadingCita ? (
+                        <div className="text-center py-8">
+                            <p className="text-gray-600">Confirmando tu cita...</p>
+                        </div>
+                    ) : errorCita ? (
+                        <div className="text-center py-8">
+                            <p className="text-red-600">Error al confirmar la cita. Por favor, intenta nuevamente.</p>
+                        </div>
+                    ) :
+
+                        <BoletaCita Databoletacita={citaConfirmada} />
+                )}
+
             </section>
 
 
 
-        </main>
+        </main >
     )
 }

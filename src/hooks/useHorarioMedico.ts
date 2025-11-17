@@ -4,11 +4,11 @@ import useSWR, { mutate } from "swr";
 
 export interface HorarioMedico {
   numero: number;
-  medicoId: string;
-  fecha: Date;
+  medicoId: number;
+  fecha: string;
   horaInicio: string;
   horaFin: string;
-  disponible: boolean;
+  disponible: string;
   consultorio: string;
 }
 

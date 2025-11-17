@@ -1,5 +1,7 @@
 // hooks/usePacientes.ts
-import useSWR, { mutate } from "swr";
+import { mutate } from "swr";
+import useSWR from "swr";
+import useSWRMutation from "swr/mutation";
 // import type  { Paciente } from "../schema/paciente.schema";
 
 export interface HorarioMedico {
@@ -17,7 +19,7 @@ const fetcher = (url: string) => fetch(url).then(res => res.json());
 export function useCitas() {
   const { data, error } = useSWR<HorarioMedico[]>("http://localhost:8085/horariomedico/listar", fetcher);
 
-  const EliminarHorario = async (numero: number , medicoId: string) => {
+  const EliminarHorario = async (numero: number, medicoId: string) => {
     try {
       const response = await fetch(
         `http://localhost:8085/horariomedico/eliminar/${numero}`,
@@ -29,9 +31,9 @@ export function useCitas() {
       }
 
       // Refresca la caché específica de SWR
-       await mutate(
-                `http://localhost:8185/disponibilidad/disponibles?medicoId=${medicoId}`
-            );
+      await mutate(
+        `http://localhost:8185/disponibilidad/disponibles?medicoId=${medicoId}`
+      );
 
     } catch (error) {
       console.error("Error en EliminarHorario:", error);
@@ -47,22 +49,58 @@ export function useCitas() {
   };
 }
 
-// export function useCitasPorEspecialidad(especialidad: string | null) {
-//   const { data, error, isLoading } = useSWR<HorarioMedico[]>(
-//     especialidad
-//       ? `http://localhost:8189/solicitudcita/horariosdisponibles?especialidad=${especialidad}`
-//       : null, // No hace fetch si especialidad es null
-//     fetcher
-//     mutate(`http://localhost:8189/solicitudcita/horariosdisponibles?especialidad=${especialidad}`)
-//   );
-//   return {
-//     horariosFiltradosEspecialidad: data || [],
-//     isLoading,
-//     error
-//   };
-// }
+interface PropsConfirmarCita {
+  idPaciente: number;
+  idDoctor: number;
+  horarioId: number;
+  motivo: string;
+  tipoCita: string;
+}
 
+export interface PropsCitaConfirmada {
+  numero: number;
+  pacienteId: number;
+  dniPaciente: string | null;
+  horarioId: number;
+  idDoctor: number;
+  motivo: string;
+  tipoCita: string;
+  fecha: string;
+  costo: number;
+  estado: string;
+}
 
+async function confirmarCitaFetcher(url: string, { arg }: { arg: PropsConfirmarCita }) {
+  const queryUrl = `${url}?${new URLSearchParams({
+    idPaciente: String(arg.idPaciente),
+    idDoctor: String(arg.idDoctor),
+    horarioId: String(arg.horarioId),
+    motivo: arg.motivo,
+    tipoCita: arg.tipoCita
+  })}`;
+
+  const response = await fetch(queryUrl);
+
+  if (!response.ok) {
+    throw new Error(`Error: ${response.status}`);
+  }
+
+  return response.json();
+}
+
+export function useConfirmarCita() {
+  const { trigger, data, isMutating, error } = useSWRMutation<PropsCitaConfirmada, Error, string, PropsConfirmarCita>(
+    'http://localhost:8189/solicitudcita/confirmar',
+    confirmarCitaFetcher
+  );
+
+  return {
+    confirmarCita: trigger,
+    citaConfirmada: data || null,
+    isLoadingCita: isMutating,
+    errorCita: error
+  };
+}
 
 
 
