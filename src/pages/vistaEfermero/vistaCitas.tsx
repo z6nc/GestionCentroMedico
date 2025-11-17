@@ -84,20 +84,30 @@ export function VistaCitas() {
 
     const { confirmarCita, citaConfirmada, isLoadingCita, errorCita } = useConfirmarCita();
 
-    const handleConfirm = async () => {
-        try {
-            await confirmarCita({
-                idPaciente: pacienteId ? Number(pacienteId) : 0,
-                idDoctor: selectedDoctor?.numero || 0,
-                horarioId: selectedHorarioId?.numero || 0,
-                motivo: motivo,
-                tipoCita: tipocita
-            });
-            setStep(4);
-        } catch (err) {
-            console.error('Error:', err);
-        }
-    };
+     const handleConfirm = async () => {
+    try {
+        console.log('Enviando datos:', {
+            idPaciente: pacienteId ? Number(pacienteId) : 0,
+            idDoctor: selectedDoctor?.numero || 0,
+            horarioId: selectedHorarioId?.numero || 0,
+            motivo: motivo,
+            tipoCita: tipocita
+        });
+
+        await confirmarCita({
+            idPaciente: pacienteId ? Number(pacienteId) : 0,
+            idDoctor: selectedDoctor?.numero || 0,
+            horarioId: selectedHorarioId?.numero || 0,
+            motivo: motivo,
+            tipoCita: tipocita
+        });
+        
+        setStep(4);
+    } catch (err) {
+        console.error('Error completo:', err);
+        // Mantener en step 3 para que el usuario vea el error
+    }
+};
 
     return (
         <main className="">
@@ -377,7 +387,7 @@ export function VistaCitas() {
 
 
 
-                {step === 4 && citaConfirmada && (
+                {step === 4 && (
                     isLoadingCita ? (
                         <div className="text-center py-8">
                             <p className="text-gray-600">Confirmando tu cita...</p>

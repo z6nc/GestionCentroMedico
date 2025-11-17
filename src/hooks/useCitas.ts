@@ -71,6 +71,7 @@ export interface PropsCitaConfirmada {
 }
 
 async function confirmarCitaFetcher(url: string, { arg }: { arg: PropsConfirmarCita }) {
+  // Enviar como query params en POST
   const queryUrl = `${url}?${new URLSearchParams({
     idPaciente: String(arg.idPaciente),
     idDoctor: String(arg.idDoctor),
@@ -79,10 +80,19 @@ async function confirmarCitaFetcher(url: string, { arg }: { arg: PropsConfirmarC
     tipoCita: arg.tipoCita
   })}`;
 
-  const response = await fetch(queryUrl);
+  console.log('URL:', queryUrl); // Debug
+
+  const response = await fetch(queryUrl, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    }
+  });
 
   if (!response.ok) {
-    throw new Error(`Error: ${response.status}`);
+    const errorText = await response.text();
+    console.error('Error del servidor:', errorText);
+    throw new Error(`Error ${response.status}: ${errorText}`);
   }
 
   return response.json();
@@ -101,7 +111,3 @@ export function useConfirmarCita() {
     errorCita: error
   };
 }
-
-
-
-

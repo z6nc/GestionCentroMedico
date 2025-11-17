@@ -56,10 +56,6 @@ export function useDisponiblidadHorarioMedicoEspecialidad(especialidad: string) 
     }
   );
 
-  console.log('Especialidad:', especialidad);
-  console.log('Datos recibidos:', data);
-  console.log('Error:', error);
-
   return { 
     disponibilidades: data, 
     error,
