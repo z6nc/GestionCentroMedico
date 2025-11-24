@@ -20,17 +20,18 @@ type PropsMedico = {
 
 // Input: Lo que envías al backend
 export interface AtencionMedicaEntrada {
-  idCita: number;
-  idHistoriaMedica: number;
-  idPaciente: number;
-  idMedico: number; // Generalmente se saca del token, pero aquí lo enviamos explícito
-  fechaAtencion: string; // ISO String
-  diagnostico: string;
-  tratamiento: string;
-  estado: string; // "FINALIZADO"
-  // Opcional: Agregar aquí los arrays de receta y analisis si tu backend los espera
-  detalleReceta?: [];
-  detalleAnalisis?: [];
+    idAtencionMedica?: number; // Opcional para creación
+    idCita: number;
+    idHistoriaMedica: number;
+    idPaciente: number;
+    idMedico: number; // Generalmente se saca del token, pero aquí lo enviamos explícito
+    fechaAtencion: string; // ISO String
+    diagnostico: string;
+    tratamiento: string;
+    estado: string; // "FINALIZADO"
+    // Opcional: Agregar aquí los arrays de receta y analisis si tu backend los espera
+    receta?: [];
+    analisisClinico?: [];
 }
 
 // Output: Lo que el backend te responde (IDs generados, etc)
@@ -86,7 +87,7 @@ export const useGuardarAtencionMedica = () => {
     );
 
     return {
-        guardarAtencion: trigger, 
+        guardarAtencion: trigger,
         atencionGuardada: data,   // La respuesta del backend (ej. para mostrar el PDF)
         cargando: isMutating,     // Boolean para desactivar el botón o mostrar spinner
         errorGuardado: error,     // Objeto de error si falla

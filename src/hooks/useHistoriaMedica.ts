@@ -2,7 +2,7 @@ import useSWR, { mutate } from "swr";
 import { useCallback } from "react";
 import type { HistoriaMedicaProps } from "../schema/historiaMedica.schema";
 import type { Paciente } from "../schema/paciente.schema";
-
+import type { AtencionMedicaEntrada } from "./useAtencionMedica";
 const API_URL = "http://localhost:8088/historiaMedica";
 
 const fetcher = async (url: string) => {
@@ -92,18 +92,18 @@ export interface CitaDTO {
   estado: "RESERVADA" | "CANCELADA" | "FINALIZADA";
 }
 
-export interface AtencionMedicaDTO {
-  idAtencion: number;
-  diagnostico: string;
-  tratamiento: string;
-  descripcion: string;
-  FechaAtencionMedica: string;
-  // Agrega más campos si tu AtencionMedicaDTO tiene más
-}
+// export interface AtencionMedicaDTO {
+//   idAtencion: number;
+//   diagnostico: string;
+//   tratamiento: string;
+//   descripcion: string;
+//   FechaAtencionMedica: string;
+//   // Agrega más campos si tu AtencionMedicaDTO tiene más
+// }
 
 export interface CitaConAtencion {
   cita: CitaDTO;
-  atencion: AtencionMedicaDTO | null; // Puede ser null si no tiene atención
+  atencion: AtencionMedicaEntrada | null; // Puede ser null si no tiene atención
 }
 
 export interface ExpedienteMedico {
