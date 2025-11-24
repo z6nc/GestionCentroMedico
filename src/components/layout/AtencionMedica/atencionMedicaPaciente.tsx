@@ -4,8 +4,10 @@ import type { HistoriaMedicaProps } from "../../../schema/historiaMedica.schema"
 import { CalendarIcon, FileTextIcon, UserIcon } from "lucide-react";
 import type { AtencionMedicaEntrada } from "../../../hooks/useAtencionMedica";
 import { useGuardarAtencionMedica } from "../../../hooks/useAtencionMedica";
-import { toast } from "react-toastify/unstyled";
+import { toast } from "react-toastify";
 import { useState } from "react";
+import { ModalCustom } from "../../common/Modal/modalCustom";
+import { DetalleAtencionMedica } from "./detalleAtencionMedica";
 interface AtencionMedicaProps {
     Cita: CitaDTO | (Omit<CitaDTO, 'dniPaciente'> & { dniPaciente: string | null });
     historiaMedica: HistoriaMedicaProps;
@@ -15,6 +17,7 @@ interface AtencionMedicaProps {
 export const AtencionMedicaPaciente = ({ Cita, historiaMedica, paciente }: AtencionMedicaProps) => {
     // 2. LLAMADA AL HOOK (Destructuring)
     const { guardarAtencion, cargando, errorGuardado, atencionGuardada } = useGuardarAtencionMedica();
+    const [modalAbierto, setModalAbierto] = useState(false);
 
     // 3. Estado del Formulario Local
     const [formulario, setFormulario] = useState({
@@ -61,15 +64,16 @@ export const AtencionMedicaPaciente = ({ Cita, historiaMedica, paciente }: Atenc
             await guardarAtencion(payload);
             toast.success("Atención médica guardada exitosamente.");
             // (Opcional) Limpiar formulario o lógica adicional
-            // setFormulario({...formulario, diagnostico: "", tratamiento: ""});
-
+            setFormulario({ ...formulario, diagnostico: "", tratamiento: "" });
+            
         } catch (error) {
             console.error("Error capturado en el componente:", error);
             // No necesitas hacer mucho aquí, 'errorGuardado' del hook ya tiene el error para mostrarlo
             toast.error("Error al guardar la atención médica.");
         }
     };
-
+    
+    console.log("Atención médica guardada:", atencionGuardada);
     return (
         <div className="min-h-screen bg-gray-100 py-10 px-4 flex justify-center items-start">
             <div className="max-w-4xl w-full bg-white rounded-xl shadow-xl overflow-hidden">
@@ -211,7 +215,7 @@ export const AtencionMedicaPaciente = ({ Cita, historiaMedica, paciente }: Atenc
                     </div>
 
                     {/* --- FOOTER: Acciones --- */}
-                    <div className="pt-6 border-t border-gray-100 flex items-center justify-end gap-4">
+                    <div className="pt-6 border-t border-gray-100  flex items-center justify-end gap-4">
                         <button
                             type="button"
                             className="px-6 py-2.5 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-200 transition"
@@ -225,8 +229,37 @@ export const AtencionMedicaPaciente = ({ Cita, historiaMedica, paciente }: Atenc
                             Guardar Atención Médica
                         </button>
                     </div>
+
                 </form>
+                {atencionGuardada && (
+                    // 1. Contenedor: Maneja la línea divisoria y el espaciado general
+                    <div className="p-6 mt-6 border-t border-gray-100 w-full flex justify-start animate-fade-in-up">
+
+                        {/* 2. Botón: Diseño sólido y atractivo */}
+                        <button
+                            onClick={() => setModalAbierto(true)}
+                            className="
+                group flex items-center gap-2 px-6 py-3 
+                bg-indigo-600 text-white text-sm font-semibold rounded-lg shadow-md 
+                hover:bg-indigo-700 hover:shadow-lg hover:-translate-y-0.5
+                focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500
+                transition-all duration-200 ease-in-out
+            "
+                        >
+                           
+
+                            Ver Detalle de Atención
+                        </button>
+                    </div>
+                )}
             </div>
+            <ModalCustom isOpen={modalAbierto} onClose={() => setModalAbierto(false)} title="Modal de Análisis Clínicos">
+                {atencionGuardada ? (
+                    <DetalleAtencionMedica data={atencionGuardada} />
+                ) : (
+                    <p>No hay datos de atención médica guardados para mostrar.</p>
+                )}
+            </ModalCustom>
         </div>
     );
 }
