@@ -1,7 +1,6 @@
 import { Users, Calendar, Stethoscope, Pill, CalendarSearch } from "lucide-react"
-import { VistaCitas, VistaPacientes, VistaListaCitas,VistaHistoriaMedica, VistaMedico, VistaMedicamentos, VistaAnalisis, VistaDetalleMedico, VistaProgramacionMedica ,VistaHorarioMedicos,VistaHorarioMedicosAdministrador } from "../pages/VistaAdmin/index"
+import { VistaCitas, VistaPacientes, VistaListaCitas,VistaHistoriaMedica, VistaMedico, VistaMedicamentos, VistaAtencionMedica ,VistaAnalisis, VistaDetalleMedico, VistaProgramacionMedica ,VistaHorarioMedicos,VistaHorarioMedicosAdministrador } from "../pages/VistaAdmin/index"
 import { VerBoletas } from "../pages/VistaCajero/index";
-import { VistaAtencionMedica } from "../pages/VistaMedico";
 import type { SidebarItem } from "../types/siderBarItem.types";
 
 
@@ -15,6 +14,8 @@ export const sidebarItems: SidebarItem[] = [
             { path: "/dashboard/lista-medicamentos", element: <VistaMedicamentos />, allowedRoles: ["administrativo", "cajero"] },
             { path: "/dashboard/analisis", element: <VistaAnalisis />, allowedRoles: ["administrativo"] },
             { path: "/dashboard/ListaHorarioMedicos", element: <VistaHorarioMedicosAdministrador />, allowedRoles: ["administrativo"] },
+            { path: "/dashboard/AtencionMedica/:id", element: <VistaAtencionMedica />, allowedRoles: ["administrativo"] },
+
         ]
     },
     {
@@ -41,8 +42,6 @@ export const sidebarItems: SidebarItem[] = [
         Categoria: "medico",
         itemsLabel: [
             { path: "/dashboard/boleta", element: <VerBoletas />, allowedRoles: ["medico", "cajero"] },
-            { path: "/dashboard/atencion-medica", element: <VistaAtencionMedica />, allowedRoles: ["medico"] },
-            // { icon: Users, label: "Pacientes", path: "/dashboard/pacientes", element: <VistaRecetaMedica />, allowedRoles: ["medico"] }, // crear RecetaMedica
 
         ]
     }

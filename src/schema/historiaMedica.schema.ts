@@ -2,7 +2,7 @@ import { z } from "zod";
 
 export const HistoriaMedicaSchema = z.object({
   idHistoriaMedica: z.number().optional(), 
-  pacienteId: z.number(),
+  pacienteId: z.number().optional(),
   tipoSangre: z.enum(["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"]),
   alergias: z.string().optional(),
   enfermedadesCronicas: z.string().optional(),

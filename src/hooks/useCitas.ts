@@ -109,3 +109,17 @@ export function useConfirmarCita() {
     errorCita: error
   };
 }
+
+export function BuscarCitarPorId(CitaId: number) {
+  const BUSCAR_URL = `http://localhost:8089/cita/buscar/${CitaId}`;
+
+  const { data, error, isLoading } = useSWR<PropsCitaConfirmada>(
+    BUSCAR_URL,
+    fetcher
+  );
+  return {
+    Cita: data || null,
+    errorCita: error,
+    isLoadingCita: isLoading
+  };
+}

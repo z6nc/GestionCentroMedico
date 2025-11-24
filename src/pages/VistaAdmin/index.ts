@@ -9,3 +9,4 @@ export * from "./vistaProgramacionMedico";
 export * from "../vistaEfermero/vistaHorarioMedicos";
 export * from "./VistaHorarioMedicosAdministrador";
 export * from "../vistaEfermero/vistaListaCitas";
+export * from  "./vistaAtencionMedica";

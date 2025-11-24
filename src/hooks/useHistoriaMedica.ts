@@ -81,7 +81,7 @@ export function useHistoriaPorPaciente(pacienteId?: number) {
 
 export interface CitaDTO {
   numero: number;
-  pacienteId: string;
+  pacienteId: number;
   dniPaciente: string;
   horarioId: string;
   idDoctor: string;
@@ -124,5 +124,17 @@ export function useExpedientesMedicos(pacienteId: string | null) {
     expediente: data || null, // Cambié el nombre porque es singular
     isLoading,
     error
+  };
+}
+
+
+export function useBuscarHistoriaMedica(id : number){
+  const BUSCAR_URL = `http://localhost:8088/historiaMedica/buscar/paciente/${id}`;
+  const { data, error, isLoading } = useSWR<HistoriaMedicaProps>(`${BUSCAR_URL}`,fetcher,);
+  return {
+    historiaMedica: data,
+    errorHistoria : error,
+    isLoadingHistoria: isLoading,
+    mutate, // permite actualizar la data localmente o volver a fetch
   };
 }
