@@ -5,7 +5,7 @@ import { CarritoRecetaMedica } from './carritoRecetaMedica';
 import { mutate } from 'swr';
 import { useNavigate } from 'react-router-dom';
 export const DetalleRecetaMedica = ({ IDRECETA }: { IDRECETA: number }) => {
-     const navigate = useNavigate();
+    const navigate = useNavigate();
     const { medicamentos } = useMedicamentos();
     const { agregarMedicamento } = useAgregarMedicamento();
     const { finalizarReceta, recetaFinalizada } = useFinalizarReceta(IDRECETA);

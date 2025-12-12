@@ -3,12 +3,15 @@ import { DetalleRecetaMedica } from "./DetalleRecetaMedica";
 import { DetalleAnalisisClinico } from "./DetalleAnalisisClinico";
 import { useState } from "react";
 import { useCrearReceta } from "../../../hooks/useRecetaMedica";
+import { useCrearAnalisis } from "../../../hooks/useAnalisisMedica";
 export const BotonesAtencionMedica = ({ IdAtencionMedica, IdMedico }: { IdAtencionMedica: number, IdMedico: number }) => {
     const [modalRecetaAbierto, setModalRecetaAbierto] = useState(false);
     const [modalAnalisisAbierto, setModalAnalisisAbierto] = useState(false);
     const [RecetaCreada, setIsRecetaCreada] = useState();
+    const [AnalisisCreado, setIsAnalisisCreado] = useState();
     console.log("Receta en BotonesAtencionMedica:", RecetaCreada);
     const { crearReceta } = useCrearReceta();
+    const {crearAnalisis} = useCrearAnalisis();
     const handleCrearReceta = async () => {
         try {
             const result = await crearReceta({
@@ -23,13 +26,29 @@ export const BotonesAtencionMedica = ({ IdAtencionMedica, IdMedico }: { IdAtenci
             console.error("Error:", err);
         }
     }
+
+    const handleCrearAnalisis = async () => {
+        try {
+            const result = await crearAnalisis({
+                idAtencion: IdAtencionMedica,
+                idMedico: IdMedico
+            });
+            console.log("Análisis creado:", result);
+            setModalAnalisisAbierto(true);
+            setIsAnalisisCreado(result.idAnalisis);
+            // Aquí puedes guardar el ID del análisis creado si lo necesitas
+        } catch (err) {
+            console.error("Error:", err);
+        }
+    }
+
     return (
         <div className="pt-6 border-t border-gray-100 flex items-center justify-start gap-4">
 
             {/* Botón: Solicitar Análisis */}
             <button
                 type="button" // Cambiado a 'button' si abre un modal
-                onClick={() => setModalAnalisisAbierto(true)}
+                onClick={handleCrearAnalisis}
                 className="
                          group flex items-center gap-2 px-5 py-2.5 rounded-lg text-sm font-semibold transition-all duration-200 ease-in-out shadow-sm
                          bg-purple-50 text-purple-700 border border-purple-200
@@ -61,7 +80,7 @@ export const BotonesAtencionMedica = ({ IdAtencionMedica, IdMedico }: { IdAtenci
                 <DetalleRecetaMedica IDRECETA={RecetaCreada? RecetaCreada : 0} />
             </ModalCustom>
             <ModalCustom isOpen={modalAnalisisAbierto} onClose={() => setModalAnalisisAbierto(false)} title="Solicitud de Análisis Clínicos">
-                <DetalleAnalisisClinico IDAtencionMedica={IdAtencionMedica} />
+                <DetalleAnalisisClinico IDANALISIS={AnalisisCreado ? AnalisisCreado : 0} />
             </ModalCustom>
 
         </div>

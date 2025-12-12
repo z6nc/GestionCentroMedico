@@ -11,3 +11,4 @@ export * from "./VistaHorarioMedicosAdministrador";
 export * from "../vistaEfermero/vistaListaCitas";
 export * from  "./vistaAtencionMedica";
 export * from "./vistaRecetaAtencion"
+export * from "./VistaAnalisisAtencion";

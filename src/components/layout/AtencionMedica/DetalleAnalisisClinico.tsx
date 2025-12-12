@@ -1,56 +1,67 @@
 import React, { useState, useRef } from 'react';
 import { 
   Plus, 
-  Trash2, 
   Save, 
   Microscope, // Icono distintivo para Lab
   FileText, 
   FlaskConical, // Icono para el select
   ChevronDown,
-  Activity
 } from 'lucide-react';
+import { CarritoAnalisisMedico } from './carritoAnalisisMedico';
+import { useAgregarTipoAnalisis,useFinalizarAnalisis,useTipoAnalisis } from '../../../hooks/useAnalisisMedica';
+import { useNavigate } from 'react-router-dom';
+import { mutate } from 'swr';
 
-// Simulación de tu base de datos de análisis
-const CATALOGO_ANALISIS = [
-  { id: 'an_1', nombre: 'Hemograma Completo' },
-  { id: 'an_2', nombre: 'Glucosa en Ayunas' },
-  { id: 'an_3', nombre: 'Perfil Lipídico' },
-  { id: 'an_4', nombre: 'Urocultivo' },
-  { id: 'an_5', nombre: 'Creatinina' },
-];
-
-export const DetalleAnalisisClinico = ({ IDAtencionMedica }: { IDAtencionMedica: number }) => {
-  const [items, setItems] = useState([]);
-  const [currentExam, setCurrentExam] = useState({ type: '', notes: '' });
+export const DetalleAnalisisClinico = ({ IDANALISIS }: { IDANALISIS: number }) => {
+  const [currentExam, setCurrentExam] = useState({ idAnalisis: 0, idTipo: 0  ,indicaciones:''});
   const selectRef = useRef(null);
-  console.log("ID Atencion Medica en DetalleAnalisisClinico:", IDAtencionMedica);
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setCurrentExam({ ...currentExam, [name]: value });
-  };
+  console.log("ID Atencion Medica en DetalleAnalisisClinico:", IDANALISIS);
+  
+  const navigate = useNavigate();
+    const { tiposAnalisis } = useTipoAnalisis();
+    const { agregarTipoAnalisis } = useAgregarTipoAnalisis();
+    const { finalizarAnalisis, analisisFinalizado } = useFinalizarAnalisis(IDANALISIS);
 
-  const addItem = (e) => {
-    e.preventDefault();
-    if (!currentExam.type) return;
 
-    const newItem = {
-      id: Date.now(),
-      ...currentExam
+     const handleAgregar = async (e: React.FormEvent) => {
+        e.preventDefault(); // Prevenir recarga de la página
+
+        try {
+            await agregarTipoAnalisis({
+                idAnalisis: IDANALISIS,
+                idTipo: currentExam.idTipo,
+                indicaciones: currentExam.indicaciones
+            });
+
+            console.log("Medicamento agregado correctamente");
+
+            // Limpiar el formulario después de agregar
+            setCurrentExam({
+                idAnalisis: 0,
+                idTipo: 0,
+                indicaciones: ''
+            });
+
+            // Devolver el foco al select de medicamentos
+             mutate(`http://localhost:8198/gestionanalisis/ver/${IDANALISIS}`);
+            selectRef.current?.focus();
+
+        } catch (err) {
+            console.error("Error al agregar:", err);
+        }
     };
 
-    setItems([...items, newItem]);
-    setCurrentExam({ type: '', notes: '' });
-    selectRef.current?.focus(); // Regresar foco al select para flujo rápido
-  };
+ const handleFinalizar = async () => {
+        try {
+            await finalizarAnalisis();
+            console.log("Análisis finalizado:", analisisFinalizado);
+            navigate('/dashboard/AnalisisAtencion/'+IDANALISIS);
+        } catch (err) {
+            console.error("Error al finalizar:", err);
+        }
+    };
 
-  const removeItem = (id) => {
-    setItems(items.filter(item => item.id !== id));
-  };
 
-  const handleSave = () => {
-    console.log("Solicitud de Laboratorio:", items);
-    // Aquí tu lógica para guardar
-  };
 
   return (
     <div className="max-w-lg mx-auto bg-white rounded-xl shadow-xl border border-slate-200 overflow-hidden font-sans">
@@ -68,7 +79,7 @@ export const DetalleAnalisisClinico = ({ IDAtencionMedica }: { IDAtencionMedica:
 
       {/* FORMULARIO */}
       <div className="bg-slate-50 p-5 border-b border-slate-200">
-        <form onSubmit={addItem} className="flex flex-col gap-3">
+        <form onSubmit={handleAgregar} className="flex flex-col gap-3">
           
           {/* SELECT: Tipo de Análisis */}
           <div>
@@ -83,8 +94,11 @@ export const DetalleAnalisisClinico = ({ IDAtencionMedica }: { IDAtencionMedica:
               <select
                 ref={selectRef}
                 name="type"
-                value={currentExam.type}
-                onChange={handleChange}
+                value={currentExam.idTipo}
+                onChange={(e) => setCurrentExam({
+                                    ...currentExam,
+                                    idTipo: Number(e.target.value) // Convertir a número
+                                })}
                 className="w-full pl-10 pr-10 py-2.5 rounded-lg border border-slate-300 bg-white 
                            focus:ring-2 focus:ring-teal-500 focus:border-teal-500 outline-none 
                            transition-all text-slate-800 appearance-none cursor-pointer
@@ -92,8 +106,8 @@ export const DetalleAnalisisClinico = ({ IDAtencionMedica }: { IDAtencionMedica:
                 required
               >
                 <option value="" disabled hidden>Seleccione análisis...</option>
-                {CATALOGO_ANALISIS.map((item) => (
-                  <option key={item.id} value={item.nombre} className="text-slate-800 py-1">
+                {tiposAnalisis.map((item) => (
+                  <option key={item.idTipo} value={item.idTipo} className="text-slate-800 py-1">
                     {item.nombre}
                   </option>
                 ))}
@@ -111,9 +125,12 @@ export const DetalleAnalisisClinico = ({ IDAtencionMedica }: { IDAtencionMedica:
               <FileText className="absolute left-3 top-3 text-slate-400" size={18} />
               <input
                 type="text"
-                name="notes"
-                value={currentExam.notes}
-                onChange={handleChange}
+                name="indicaciones"
+                value={currentExam.indicaciones}
+                onChange={(e) => setCurrentExam({
+                                    ...currentExam,
+                                    indicaciones: e.target.value
+                                })}
                 placeholder="Ind. (Ej. Ayuno 8hrs / Descarte)"
                 className="w-full pl-10 pr-4 py-2.5 rounded-lg border border-slate-300 focus:ring-2 focus:ring-teal-500 focus:border-teal-500 outline-none transition-all text-slate-800 placeholder:text-slate-400"
                 autoComplete="off"
@@ -123,7 +140,6 @@ export const DetalleAnalisisClinico = ({ IDAtencionMedica }: { IDAtencionMedica:
             {/* Botón Agregar */}
             <button
               type="submit"
-              disabled={!currentExam.type}
               className="bg-slate-800 hover:bg-slate-700 disabled:bg-slate-300 disabled:cursor-not-allowed text-white p-2.5 rounded-lg transition-colors flex items-center justify-center min-w-[50px] shadow-sm"
               title="Agregar Análisis"
             >
@@ -134,55 +150,12 @@ export const DetalleAnalisisClinico = ({ IDAtencionMedica }: { IDAtencionMedica:
       </div>
 
       {/* LISTA / CARRITO */}
-      <div className="bg-white min-h-[150px]">
-        {items.length === 0 ? (
-          <div className="h-full flex flex-col items-center justify-center py-10 text-slate-400">
-            <Activity size={40} className="mb-2 opacity-20" />
-            <span className="text-sm italic">Sin exámenes solicitados</span>
-          </div>
-        ) : (
-          <div>
-            <div className="px-4 py-2 bg-teal-50 text-teal-800 text-xs font-bold uppercase tracking-wider border-b border-teal-100 flex justify-between items-center">
-              <span>Exámenes ({items.length})</span>
-            </div>
-            <ul className="divide-y divide-slate-100">
-              {items.map((item, index) => (
-                <li key={item.id} className="p-4 flex justify-between items-center group hover:bg-slate-50 transition-colors animate-in fade-in slide-in-from-top-2 duration-300">
-                  <div className="flex items-start gap-3 overflow-hidden">
-                    {/* Badge numérico en Teal */}
-                    <span className="flex-shrink-0 bg-teal-100 text-teal-700 text-xs font-bold w-6 h-6 rounded-full flex items-center justify-center mt-0.5 border border-teal-200">
-                      {index + 1}
-                    </span>
-                    <div className="min-w-0">
-                      <p className="text-slate-800 font-semibold text-sm truncate">{item.type}</p>
-                      {item.notes ? (
-                        <p className="text-slate-500 text-xs truncate flex items-center gap-1">
-                           <span className="font-medium">Nota:</span> {item.notes}
-                        </p>
-                      ) : (
-                         <p className="text-slate-400 text-xs italic">Sin observaciones</p>
-                      )}
-                    </div>
-                  </div>
-                  
-                  <button
-                    onClick={() => removeItem(item.id)}
-                    className="text-slate-300 hover:text-red-500 hover:bg-red-50 p-2 rounded-md transition-all"
-                  >
-                    <Trash2 size={16} />
-                  </button>
-                </li>
-              ))}
-            </ul>
-          </div>
-        )}
-      </div>
-
+    
+       <CarritoAnalisisMedico IDANALISIS={IDANALISIS} />
       {/* FOOTER */}
       <div className="p-4 bg-slate-50 border-t border-slate-200">
         <button
-          onClick={handleSave}
-          disabled={items.length === 0}
+          onClick={handleFinalizar}
           // Nota el cambio de color a Teal-600 para el botón principal
           className="w-full bg-teal-600 hover:bg-teal-700 disabled:bg-slate-300 disabled:cursor-not-allowed text-white font-semibold py-3 px-4 rounded-lg shadow-sm hover:shadow-md transition-all flex items-center justify-center gap-2"
         >

@@ -1,5 +1,5 @@
 import { Users, Calendar, Stethoscope, Pill, CalendarSearch } from "lucide-react"
-import { VistaCitas, VistaPacientes, VistaListaCitas,VistaHistoriaMedica, VistaMedico,VistaRecetaAtencion, VistaMedicamentos, VistaAtencionMedica ,VistaAnalisis, VistaDetalleMedico, VistaProgramacionMedica ,VistaHorarioMedicos,VistaHorarioMedicosAdministrador } from "../pages/VistaAdmin/index"
+import { VistaCitas, VistaPacientes, VistaListaCitas,VistaHistoriaMedica, VistaMedico,VistaRecetaAtencion,VistaAnalisisAtencion ,VistaMedicamentos, VistaAtencionMedica ,VistaAnalisis, VistaDetalleMedico, VistaProgramacionMedica ,VistaHorarioMedicos,VistaHorarioMedicosAdministrador } from "../pages/VistaAdmin/index"
 import { VerBoletas } from "../pages/VistaCajero/index";
 import type { SidebarItem } from "../types/siderBarItem.types";
 
@@ -16,6 +16,7 @@ export const sidebarItems: SidebarItem[] = [
             { path: "/dashboard/ListaHorarioMedicos", element: <VistaHorarioMedicosAdministrador />, allowedRoles: ["administrativo"] },
             { path: "/dashboard/AtencionMedica/:id", element: <VistaAtencionMedica />, allowedRoles: ["administrativo"] },
             { path: "/dashboard/RecetaAtencion/:id", element: <VistaRecetaAtencion />, allowedRoles: ["administrativo"] },
+            { path: "/dashboard/AnalisisAtencion/:id", element: <VistaAnalisisAtencion />, allowedRoles: ["administrativo"] },
 
         ]
     },
