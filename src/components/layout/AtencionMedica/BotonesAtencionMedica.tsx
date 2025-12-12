@@ -2,9 +2,27 @@ import { ModalCustom } from "../../common/Modal/modalCustom";
 import { DetalleRecetaMedica } from "./DetalleRecetaMedica";
 import { DetalleAnalisisClinico } from "./DetalleAnalisisClinico";
 import { useState } from "react";
-export const BotonesAtencionMedica = ({ IdAtencionMedica }: { IdAtencionMedica: number }) => {
+import { useCrearReceta } from "../../../hooks/useRecetaMedica";
+export const BotonesAtencionMedica = ({ IdAtencionMedica, IdMedico }: { IdAtencionMedica: number, IdMedico: number }) => {
     const [modalRecetaAbierto, setModalRecetaAbierto] = useState(false);
     const [modalAnalisisAbierto, setModalAnalisisAbierto] = useState(false);
+    const [RecetaCreada, setIsRecetaCreada] = useState();
+    console.log("Receta en BotonesAtencionMedica:", RecetaCreada);
+    const { crearReceta } = useCrearReceta();
+    const handleCrearReceta = async () => {
+        try {
+            const result = await crearReceta({
+                idAtencion: IdAtencionMedica,
+                idMedico: IdMedico
+            });
+            console.log("Receta creada:", result);
+            setModalRecetaAbierto(true);
+            setIsRecetaCreada(result.idReceta);
+            // Aquí puedes guardar el ID de la receta creada si lo necesitas
+        } catch (err) {
+            console.error("Error:", err);
+        }
+    }
     return (
         <div className="pt-6 border-t border-gray-100 flex items-center justify-start gap-4">
 
@@ -26,7 +44,7 @@ export const BotonesAtencionMedica = ({ IdAtencionMedica }: { IdAtencionMedica: 
 
             {/* Botón: Generar Receta */}
             <button
-                onClick={() => setModalRecetaAbierto(true)}
+                onClick={handleCrearReceta}
                 type="button" // Ojo: 'submit' enviaría todo el formulario principal. Si esto abre algo, usa 'button'
                 className="
                          group flex items-center gap-2 px-5 py-2.5 rounded-lg text-sm font-semibold transition-all duration-200 ease-in-out shadow-sm
@@ -35,15 +53,15 @@ export const BotonesAtencionMedica = ({ IdAtencionMedica }: { IdAtencionMedica: 
                          focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500
                          active:scale-95
                      "
-            >
+            > 
 
                 Generar Receta
             </button>
             <ModalCustom isOpen={modalRecetaAbierto} onClose={() => setModalRecetaAbierto(false)} title="Detalle de Receta Médica">
-                    <DetalleRecetaMedica  IDAtencionMedica={IdAtencionMedica}/>
+                <DetalleRecetaMedica IDRECETA={RecetaCreada? RecetaCreada : 0} />
             </ModalCustom>
             <ModalCustom isOpen={modalAnalisisAbierto} onClose={() => setModalAnalisisAbierto(false)} title="Solicitud de Análisis Clínicos">
-                    <DetalleAnalisisClinico  IDAtencionMedica={IdAtencionMedica}/>
+                <DetalleAnalisisClinico IDAtencionMedica={IdAtencionMedica} />
             </ModalCustom>
 
         </div>

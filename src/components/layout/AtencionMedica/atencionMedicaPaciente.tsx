@@ -17,7 +17,7 @@ interface AtencionMedicaProps {
 
 export const AtencionMedicaPaciente = ({ Cita, historiaMedica, paciente }: AtencionMedicaProps) => {
     // 2. LLAMADA AL HOOK (Destructuring)
-    const { guardarAtencion, cargando, errorGuardado, atencionGuardada } = useGuardarAtencionMedica();
+    const { guardarAtencion, atencionGuardada } = useGuardarAtencionMedica();
     const [modalAbierto, setModalAbierto] = useState(false);
 
     // 3. Estado del Formulario Local
@@ -76,7 +76,7 @@ export const AtencionMedicaPaciente = ({ Cita, historiaMedica, paciente }: Atenc
 
     console.log("Atención médica guardada:", atencionGuardada);
     return (
-        <div className="min-h-screen bg-gray-100 py-10 px-4 flex flex-col justify-center items-start">
+        <div className="min-h-screen bg-gray-100 py-10 px-4 flex flex-col justify-start items-start">
             <div className="max-w-4xl w-full bg-white rounded-xl shadow-xl overflow-hidden">
 
                 {/* --- HEADER: Contexto del Paciente (Solo Lectura) --- */}
@@ -224,7 +224,7 @@ export const AtencionMedicaPaciente = ({ Cita, historiaMedica, paciente }: Atenc
             </div>
               {
                 atencionGuardada && (
-                    <BotonesAtencionMedica IdAtencionMedica={atencionGuardada.idAtencionMedica} />
+                    <BotonesAtencionMedica IdAtencionMedica={atencionGuardada.idAtencionMedica} IdMedico={atencionGuardada.medico.numero}/>
                 )
               }
             <ModalCustom isOpen={modalAbierto} onClose={() => setModalAbierto(false)} title="Modal de Análisis Clínicos">

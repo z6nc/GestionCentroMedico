@@ -17,7 +17,6 @@ export function HistoriaMedicaPaciente(ExpedienteClinico: ExpedienteMedico) {
         setSelectedId(prev => (prev === id ? null : id));
     };
 
-
     return (
         <section className="text-black flex p-9 gap-9">
             <DetalleHistoriaMedica
