@@ -117,18 +117,18 @@ interface MedicoProps {
     precio: number | null;
 }
 
-interface AtencionProps {
-    idAtencionMedica: number;
-    idCita: number;
-    idHistoriaMedica: number;
-    idMedico: number;
-    fechaAtencion: string;
-    diagnostico: string;
-    tratamiento: string;
-    estado: string;
-    receta: string;
-    analisisClinico: string | null;
-}
+// interface AtencionProps {
+//     idAtencionMedica: number;
+//     idCita: number;
+//     idHistoriaMedica: number;
+//     idMedico: number;
+//     fechaAtencion: string;
+//     diagnostico: string;
+//     tratamiento: string;
+//     estado: string;
+//     receta: string;
+//     analisisClinico: string | null;
+// }
 
 interface DetalleRecetaProps {
     idDetalle: number;
@@ -146,7 +146,7 @@ export interface RecetaFinalizadaProps {
     fecha: string;
     estado: string;
     medico: MedicoProps;
-    atencion: AtencionProps;
+    // atencion: AtencionProps;
     detalles: DetalleRecetaProps[];
 }
 

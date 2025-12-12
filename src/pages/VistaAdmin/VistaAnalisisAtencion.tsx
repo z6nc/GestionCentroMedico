@@ -2,7 +2,6 @@ import {
   Calendar,
   User,
   Stethoscope,
-  Activity,
   Clock,
   FileCheck,
   Building2
@@ -19,7 +18,7 @@ export function VistaAnalisisAtencion() {
   if (isError) return <div>Error: {error?.message}</div>;
 
   // Función auxiliar para formatear fechas amigables
-  const formatDate = (dateString) => {
+  const formatDate = (dateString: string) => {
     return new Date(dateString).toLocaleDateString('es-PE', {
       year: 'numeric',
       month: 'long',
@@ -82,7 +81,7 @@ export function VistaAnalisisAtencion() {
           </div>
 
           {/* Columna Derecha: Resumen Clínico (Diagnóstico/Tratamiento) */}
-          <div className="md:col-span-2 bg-slate-50 rounded-lg p-4 border border-slate-100">
+          {/* <div className="md:col-span-2 bg-slate-50 rounded-lg p-4 border border-slate-100">
             <h3 className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-3 flex items-center gap-2">
               <Activity size={14} /> Resumen Clínico
             </h3>
@@ -100,7 +99,7 @@ export function VistaAnalisisAtencion() {
                 </p>
               </div>
             </div>
-          </div>
+          </div> */}
         </div>
 
         {/* 3. LISTA DE MEDICAMENTOS (DETALLE) */}
